@@ -1,0 +1,19 @@
+name: Scheduled Health Check
+
+on:
+  schedule:
+    - cron: "30 0 */7 * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  health_check_job:
+    runs-on: ubuntu-latest
+    name: Check all sites
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run Shell Script
+        run: bash ./health-check.sh
