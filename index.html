@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Status</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <style>
+        :root {
+            /* Light Theme Colors */
+            --bg-primary: #fafafa;
+            --bg-secondary: #ffffff;
+            --bg-tertiary: #f4f4f5;
+            --text-primary: #18181b;
+            --text-secondary: #52525b;
+            --text-tertiary: #a1a1aa;
+            --border-color: #e4e4e7;
+            --accent-primary: #6366f1;
+            --accent-secondary: #8b5cf6;
+            --accent-gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-glow: 0 0 20px rgba(99, 102, 241, 0.3);
+        }
+
+        [data-theme="dark"] {
+            /* Dark Theme Colors */
+            --bg-primary: #09090b;
+            --bg-secondary: #18181b;
+            --bg-tertiary: #27272a;
+            --text-primary: #fafafa;
+            --text-secondary: #a1a1aa;
+            --text-tertiary: #71717a;
+            --border-color: #3f3f46;
+            --accent-primary: #818cf8;
+            --accent-secondary: #a78bfa;
+            --accent-gradient: linear-gradient(135deg, #818cf8 0%, #a78bfa 100%);
+            --success: #4ade80;
+            --warning: #fbbf24;
+            --error: #f87171;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.4);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.5), 0 4px 6px -4px rgb(0 0 0 / 0.5);
+            --shadow-glow: 0 0 30px rgba(129, 140, 248, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        /* Header Styles */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(var(--bg-secondary), 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.02);
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--accent-gradient);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.25rem;
+            box-shadow: var(--shadow-glow);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .theme-toggle {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .theme-toggle:hover {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .theme-toggle:active {
+            transform: translateY(0);
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 8rem 2rem 4rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            margin-bottom: 4rem;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.2);
+            border-radius: 100px;
+            color: var(--success);
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--success);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--success);
+            animation: blink 2s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.8; }
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: 1rem;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 4rem;
+        }
+
+        .stat-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 1.5rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: fadeInUp 0.8s ease-out backwards;
+        }
+
+        .stat-card:nth-child(1) { animation-delay: 0.1s; }
+        .stat-card:nth-child(2) { animation-delay: 0.2s; }
+        .stat-card:nth-child(3) { animation-delay: 0.3s; }
+        .stat-card:nth-child(4) { animation-delay: 0.4s; }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--accent-primary);
+        }
+
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .stat-icon.success {
+            background: rgba(34, 197, 94, 0.1);
+            color: var(--success);
+        }
+
+        .stat-icon.primary {
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--accent-primary);
+        }
+
+        .stat-icon.warning {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+        }
+
+        .stat-icon.info {
+            background: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
+        }
+
+        .stat-value {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        /* Services Section */
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .services-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-bottom: 4rem;
+        }
+
+        .service-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: fadeInUp 0.8s ease-out backwards;
+        }
+
+        .service-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--accent-primary);
+        }
+
+        .service-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .service-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .service-icon {
+            width: 56px;
+            height: 56px;
+            background: var(--bg-tertiary);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
+            color: var(--accent-primary);
+            transition: all 0.3s ease;
+        }
+
+        .service-card:hover .service-icon {
+            background: var(--accent-gradient);
+            color: white;
+            transform: scale(1.05) rotate(5deg);
+        }
+
+        .service-title {
+            font-size: 1.25rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .service-url {
+            font-size: 0.875rem;
+            color: var(--text-tertiary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            transition: color 0.3s ease;
+        }
+
+        .service-url:hover {
+            color: var(--accent-primary);
+        }
+
+        .service-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 100px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .service-status.operational {
+            background: rgba(34, 197, 94, 0.1);
+            color: var(--success);
+        }
+
+        .service-status.degraded {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+        }
+
+        .service-status.down {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--error);
+        }
+
+        /* Uptime Bar */
+        .uptime-container {
+            margin-bottom: 1rem;
+        }
+
+        .uptime-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+            font-size: 0.875rem;
+        }
+
+        .uptime-label {
+            color: var(--text-secondary);
+        }
+
+        .uptime-value {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .uptime-bar {
+            display: flex;
+            gap: 3px;
+            height: 40px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .uptime-segment {
+            flex: 1;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .uptime-segment:hover {
+            transform: scaleY(1.1);
+            z-index: 10;
+        }
+
+        .uptime-segment.success { background: var(--success); }
+        .uptime-segment.warning { background: var(--warning); }
+        .uptime-segment.error { background: var(--error); }
+        .uptime-segment.empty { background: var(--bg-tertiary); }
+
+        /* Tooltip */
+        .tooltip {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(-10px);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1rem;
+            min-width: 200px;
+            box-shadow: var(--shadow-lg);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        .uptime-segment:hover .tooltip {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(-5px);
+        }
+
+        .tooltip-date {
+            font-size: 0.75rem;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.25rem;
+        }
+
+        .tooltip-status {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .tooltip-uptime {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        /* Footer */
+        .footer {
+            border-top: 1px solid var(--border-color);
+            margin-top: 4rem;
+            padding: 3rem 0;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--text-primary);
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-primary);
+        }
+
+        .footer-bottom {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-tertiary);
+            font-size: 0.875rem;
+        }
+
+        .render-time {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.75rem;
+            padding: 0.5rem 1rem;
+            background: var(--bg-tertiary);
+            border-radius: 100px;
+        }
+
+        /* Loading Animation */
+        .skeleton {
+            background: linear-gradient(90deg, var(--bg-tertiary) 25%, var(--border-color) 50%, var(--bg-tertiary) 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: 8px;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                padding: 1rem;
+            }
+
+            .main-content {
+                padding: 7rem 1rem 2rem;
+            }
+
+            .service-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .uptime-bar {
+                height: 32px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-tertiary);
+        }
+    </style>
+<base target="_blank">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <a href="#" class="logo">
+                <div class="logo-icon">
+                    <i class="ph ph-activity"></i>
+                </div>
+                <span>Status</span>
+            </a>
+            <div class="header-actions">
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <i class="ph ph-moon" id="themeIcon"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="status-badge">
+                <span class="status-dot"></span>
+                All Systems Operational
+            </div>
+            <h1>System Status</h1>
+            <p>Real-time monitoring of all services and infrastructure. Check uptime statistics and incident history.</p>
+        </section>
+
+        <!-- Stats Grid -->
+        <section class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon success">
+                        <i class="ph ph-check-circle"></i>
+                    </div>
+                </div>
+                <div class="stat-value">99.99%</div>
+                <div class="stat-label">Average Uptime</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon primary">
+                        <i class="ph ph-globe"></i>
+                    </div>
+                </div>
+                <div class="stat-value">5+</div>
+                <div class="stat-label">Active Services</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon warning">
+                        <i class="ph ph-warning-circle"></i>
+                    </div>
+                </div>
+                <div class="stat-value">0</div>
+                <div class="stat-label">Active Incidents</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon info">
+                        <i class="ph ph-clock"></i>
+                    </div>
+                </div>
+                <div class="stat-value">30d</div>
+                <div class="stat-label">Monitoring Period</div>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section>
+            <h2 class="section-title">
+                <i class="ph ph-server"></i>
+                Services
+            </h2>
+            <div class="services-container" id="servicesContainer">
+                <!-- Services will be loaded dynamically -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <div class="logo-icon" style="width: 32px; height: 32px; font-size: 1rem;">
+                    <i class="ph ph-activity"></i>
+                </div>
+                <span>Status Page</span>
+            </div>
+            <nav class="footer-links">
+                <a href="https://github.com/Shineii86" target="_blank" rel="noopener">
+                    <i class="ph ph-github-logo"></i>
+                    GitHub
+                </a>
+                <a href="https://t.me/Shineii86" target="_blank" rel="noopener">
+                    <i class="ph ph-telegram-logo"></i>
+                    Contact
+                </a>
+                <a href="https://github.com/Shineii86/Status" target="_blank" rel="noopener">
+                    <i class="ph ph-code"></i>
+                    Source
+                </a>
+            </nav>
+            <div class="footer-bottom">
+                <div class="render-time">
+                    <i class="ph ph-timer"></i>
+                    <span id="renderTime">Page rendered in 0ms</span>
+                </div>
+                <p>&copy; 2026 Shinei Nouzen. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Performance tracking
+        const pageStartTime = performance.now();
+
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        const html = document.documentElement;
+
+        // Check for saved theme preference or default to light
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        html.setAttribute('data-theme', currentTheme);
+        updateThemeIcon(currentTheme);
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+
+            // Add rotation animation
+            themeIcon.style.transform = 'rotate(360deg)';
+            setTimeout(() => {
+                themeIcon.style.transform = 'rotate(0deg)';
+            }, 300);
+        });
+
+        function updateThemeIcon(theme) {
+            themeIcon.className = theme === 'light' ? 'ph ph-moon' : 'ph ph-sun';
+        }
+
+        // Sample services data (replace with your actual data)
+        const services = [
+            {
+                name: 'Main Website',
+                url: 'https://shinei.dev',
+                icon: 'ph-globe',
+                status: 'operational',
+                uptime: '99.99%',
+                history: generateRandomHistory()
+            },
+            {
+                name: 'API Server',
+                url: 'https://api.shinei.dev',
+                icon: 'ph-cpu',
+                status: 'operational',
+                uptime: '99.95%',
+                history: generateRandomHistory()
+            },
+            {
+                name: 'Database',
+                url: 'db.shinei.me',
+                icon: 'ph-database',
+                status: 'operational',
+                uptime: '100%',
+                history: generateRandomHistory()
+            },
+            {
+                name: 'CDN',
+                url: 'cdn.shinei.me',
+                icon: 'ph-cloud',
+                status: 'operational',
+                uptime: '99.98%',
+                history: generateRandomHistory()
+            }
+        ];
+
+        function generateRandomHistory() {
+            const history = [];
+            for (let i = 0; i < 30; i++) {
+                const rand = Math.random();
+                if (rand > 0.95) history.push('error');
+                else if (rand > 0.9) history.push('warning');
+                else history.push('success');
+            }
+            return history;
+        }
+
+        function getStatusText(status) {
+            const texts = {
+                operational: 'Operational',
+                degraded: 'Degraded Performance',
+                down: 'Major Outage'
+            };
+            return texts[status] || 'Unknown';
+        }
+
+        function renderServices() {
+            const container = document.getElementById('servicesContainer');
+
+            services.forEach((service, index) => {
+                const card = document.createElement('div');
+                card.className = 'service-card';
+                card.style.animationDelay = `${0.1 * index}s`;
+
+                const historyHtml = service.history.map((status, i) => {
+                    const date = new Date();
+                    date.setDate(date.getDate() - (29 - i));
+                    return `
+                        <div class="uptime-segment ${status}">
+                            <div class="tooltip">
+                                <div class="tooltip-date">${date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</div>
+                                <div class="tooltip-status" style="color: var(--${status})">${getStatusText(status === 'success' ? 'operational' : status === 'warning' ? 'degraded' : 'down')}</div>
+                                <div class="tooltip-uptime">${status === 'success' ? '100%' : status === 'warning' ? '98.5%' : '0%'} uptime</div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+                card.innerHTML = `
+                    <div class="service-header">
+                        <div class="service-info">
+                            <div class="service-icon">
+                                <i class="ph ${service.icon}"></i>
+                            </div>
+                            <div>
+                                <h3 class="service-title">${service.name}</h3>
+                                <a href="${service.url}" class="service-url" target="_blank" rel="noopener">
+                                    ${service.url.replace('https://', '')}
+                                    <i class="ph ph-arrow-up-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="service-status ${service.status}">
+                            <i class="ph ph-check-circle"></i>
+                            ${getStatusText(service.status)}
+                        </div>
+                    </div>
+                    <div class="uptime-container">
+                        <div class="uptime-header">
+                            <span class="uptime-label">Last 30 days</span>
+                            <span class="uptime-value">${service.uptime}</span>
+                        </div>
+                        <div class="uptime-bar">
+                            ${historyHtml}
+                        </div>
+                    </div>
+                `;
+
+                container.appendChild(card);
+            });
+        }
+
+        // Render services on load
+        document.addEventListener('DOMContentLoaded', () => {
+            renderServices();
+
+            // Calculate and display render time
+            const renderTime = Math.round(performance.now() - pageStartTime);
+            document.getElementById('renderTime').textContent = `Page rendered in ${renderTime}ms`;
+        });
+
+        // Smooth scroll for any anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Add scroll effect to header
+        let lastScroll = 0;
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('.header');
+            const currentScroll = window.pageYOffset;
+
+            if (currentScroll > 50) {
+                header.style.boxShadow = 'var(--shadow-md)';
+            } else {
+                header.style.boxShadow = 'none';
+            }
+
+            lastScroll = currentScroll;
+        });
+    </script>
+</body>
+</html>
