@@ -2,101 +2,173 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shinei Nouzen | Quinx System Status</title>
 
-    <!-- Google Fonts (Best Fonts) -->
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
     <!-- Phosphor Icons -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
-    <!-- Anime.js for advanced animations -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/anime.js/3.2.1/anime.min.js"></script>
-
     <style>
+        :root {
+            --bg-primary: #0f0f23;
+            --bg-secondary: rgba(255, 255, 255, 0.03);
+            --bg-tertiary: rgba(255, 255, 255, 0.05);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --text-tertiary: rgba(255, 255, 255, 0.5);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --accent-primary: #6366f1;
+            --accent-secondary: #8b5cf6;
+            --accent-tertiary: #ec4899;
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --info: #3b82f6;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -4px rgba(0, 0, 0, 0.5);
+            --shadow-glow: 0 0 30px rgba(99, 102, 241, 0.4);
+            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --gradient-4: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        :root {
-            /* Light theme with dynamic gradient background */
-            --bg-gradient-light: radial-gradient(ellipse at 20% 30%, rgba(99, 102, 241, 0.1) 0%, rgba(248, 250, 252, 0.96) 70%);
-            --bg-primary: #fafbfc;
-            --bg-secondary: #ffffff;
-            --bg-tertiary: #f1f5f9;
-            --text-primary: #0f172a;
-            --text-secondary: #334155;
-            --text-tertiary: #64748b;
-            --border-color: #e2e8f0;
-            --accent-primary: #4f46e5;
-            --accent-secondary: #7c3aed;
-            --accent-gradient: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
-            --success: #10b981;
-            --warning: #f59e0b;
-            --error: #ef4444;
-            --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.05);
-            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.08), 0 2px 4px -2px rgb(0 0 0 / 0.08);
-            --shadow-lg: 0 20px 25px -5px rgb(0 0 0 / 0.08), 0 8px 10px -6px rgb(0 0 0 / 0.08);
-            --shadow-glow: 0 0 18px rgba(79, 70, 229, 0.3);
-            --card-radius: 24px;
-        }
-
-        [data-theme="dark"] {
-            --bg-gradient-dark: radial-gradient(ellipse at 70% 15%, rgba(129, 140, 248, 0.15) 0%, #0a0a0f 90%);
-            --bg-primary: #0a0a0f;
-            --bg-secondary: #111118;
-            --bg-tertiary: #1e1e2a;
-            --text-primary: #f1f5f9;
-            --text-secondary: #cbd5e1;
-            --text-tertiary: #94a3b8;
-            --border-color: #2d2d3a;
-            --accent-primary: #818cf8;
-            --accent-secondary: #a78bfa;
-            --accent-gradient: linear-gradient(135deg, #818cf8 0%, #c084fc 100%);
-            --success: #34d399;
-            --warning: #fbbf24;
-            --error: #f87171;
-            --shadow-glow: 0 0 24px rgba(129, 140, 248, 0.35);
+        html {
+            scroll-behavior: smooth;
         }
 
         body {
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            background: var(--bg-gradient-light);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
             color: var(--text-primary);
-            line-height: 1.5;
+            line-height: 1.6;
             min-height: 100vh;
-            transition: background 0.4s ease, color 0.3s ease;
+            overflow-x: hidden;
+            position: relative;
         }
 
-        [data-theme="dark"] body {
-            background: var(--bg-gradient-dark);
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
         }
 
-        h1, h2, h3, .logo, .stat-value {
+        .bg-gradient {
+            position: absolute;
+            width: 150%;
+            height: 150%;
+            top: -25%;
+            left: -25%;
+            background: 
+                radial-gradient(ellipse at 20% 20%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(236, 72, 153, 0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at 30% 70%, rgba(34, 197, 94, 0.08) 0%, transparent 50%);
+            animation: bgFloat 20s ease-in-out infinite;
+        }
+
+        @keyframes bgFloat {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(30px, -30px) rotate(2deg); }
+            66% { transform: translate(-20px, 20px) rotate(-2deg); }
+        }
+
+        .floating-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            animation: orbFloat 15s ease-in-out infinite;
+        }
+
+        .orb-1 {
+            width: 400px;
+            height: 400px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .orb-2 {
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(135deg, #ec4899, #f43f5e);
+            top: 60%;
+            right: 10%;
+            animation-delay: -5s;
+        }
+
+        .orb-3 {
+            width: 350px;
+            height: 350px;
+            background: linear-gradient(135deg, #22c55e, #10b981);
+            bottom: 10%;
+            left: 30%;
+            animation-delay: -10s;
+        }
+
+        @keyframes orbFloat {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(50px, -50px) scale(1.1); }
+        }
+
+        /* Noise Texture Overlay */
+        .noise-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.03;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        h1, h2, h3, h4, h5, h6 {
             font-family: 'Plus Jakarta Sans', sans-serif;
             font-weight: 700;
+            line-height: 1.2;
         }
 
-        /* Header - Glassmorphism */
+        /* Glassmorphism Header */
         .header {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             z-index: 1000;
-            background: rgba(var(--bg-secondary), 0.75);
-            backdrop-filter: blur(16px);
+            background: rgba(15, 15, 35, 0.7);
+            backdrop-filter: blur(20px) saturate(180%);
             border-bottom: 1px solid var(--border-color);
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .header.scrolled {
+            background: rgba(15, 15, 35, 0.9);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
         }
 
         .header-content {
-            max-width: 1280px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 1rem 2rem;
             display: flex;
@@ -108,28 +180,67 @@
             display: flex;
             align-items: center;
             gap: 0.75rem;
+            font-family: 'Plus Jakarta Sans', sans-serif;
             font-weight: 800;
             font-size: 1.5rem;
             color: var(--text-primary);
             text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .logo:hover {
+            transform: scale(1.02);
+            text-shadow: 0 0 20px rgba(99, 102, 241, 0.5);
         }
 
         .logo-icon {
-            width: 42px;
-            height: 42px;
-            background: var(--accent-gradient);
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
+            background-size: 200% 200%;
             border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 1.4rem;
-            box-shadow: var(--shadow-glow);
+            font-size: 1.25rem;
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+            animation: gradientShift 3s ease infinite;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo-icon::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
         }
 
         .theme-toggle {
-            width: 46px;
-            height: 46px;
+            width: 48px;
+            height: 48px;
             border-radius: 14px;
             border: 1px solid var(--border-color);
             background: var(--bg-secondary);
@@ -138,209 +249,313 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.3rem;
-            transition: all 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            font-size: 1.25rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
         }
 
         .theme-toggle:hover {
-            transform: scale(1.05);
-            background: var(--accent-primary);
-            color: white;
-            border-color: transparent;
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+            border-color: var(--accent-primary);
         }
 
-        /* Main Layout */
+        .theme-toggle:active {
+            transform: scale(0.95);
+        }
+
         .main-content {
-            max-width: 1280px;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 7rem 2rem 3rem;
+            padding: 8rem 2rem 4rem;
+            position: relative;
+            z-index: 1;
         }
 
-        /* Hero Section */
+        /* Hero Section with Enhanced Animations */
         .hero {
             text-align: center;
-            margin-bottom: 3.5rem;
+            margin-bottom: 4rem;
+            animation: fadeInUp 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            position: relative;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
 
         .status-badge {
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            padding: 0.5rem 1.2rem;
-            background: rgba(16, 185, 129, 0.12);
-            border: 1px solid rgba(16, 185, 129, 0.3);
+            padding: 0.75rem 1.5rem;
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.3);
             border-radius: 100px;
+            color: var(--success);
+            font-size: 0.875rem;
             font-weight: 600;
-            font-size: 0.85rem;
             margin-bottom: 1.5rem;
-            backdrop-filter: blur(4px);
+            animation: pulse 2s infinite, glowPulse 2s infinite alternate;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .status-badge.warning {
+            background: rgba(245, 158, 11, 0.1);
+            border-color: rgba(245, 158, 11, 0.3);
+            color: var(--warning);
+            animation: pulse 2s infinite, glowPulseWarning 2s infinite alternate;
+        }
+
+        .status-badge.error {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: rgba(239, 68, 68, 0.3);
+            color: var(--error);
+            animation: pulse 2s infinite, glowPulseError 2s infinite alternate;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.85; transform: scale(1.02); }
+        }
+
+        @keyframes glowPulse {
+            from { box-shadow: 0 0 10px rgba(34, 197, 94, 0.3); }
+            to { box-shadow: 0 0 25px rgba(34, 197, 94, 0.6); }
+        }
+
+        @keyframes glowPulseWarning {
+            from { box-shadow: 0 0 10px rgba(245, 158, 11, 0.3); }
+            to { box-shadow: 0 0 25px rgba(245, 158, 11, 0.6); }
+        }
+
+        @keyframes glowPulseError {
+            from { box-shadow: 0 0 10px rgba(239, 68, 68, 0.3); }
+            to { box-shadow: 0 0 25px rgba(239, 68, 68, 0.6); }
         }
 
         .status-dot {
-            width: 8px;
-            height: 8px;
-            background: var(--success);
+            width: 10px;
+            height: 10px;
+            background: currentColor;
             border-radius: 50%;
-            box-shadow: 0 0 6px var(--success);
-            animation: pulseGlow 1.8s infinite;
+            box-shadow: 0 0 15px currentColor;
+            animation: blink 1.5s infinite;
+            position: relative;
         }
 
-        @keyframes pulseGlow {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.7; transform: scale(1.2); }
+        .status-dot::after {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            border: 2px solid currentColor;
+            opacity: 0;
+            animation: ripple 1.5s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.8; }
+        }
+
+        @keyframes ripple {
+            0% { transform: scale(1); opacity: 0.5; }
+            100% { transform: scale(2); opacity: 0; }
         }
 
         .hero h1 {
-            font-size: clamp(2.2rem, 5vw, 3.6rem);
-            background: var(--accent-gradient);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
             margin-bottom: 1rem;
+            background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 50%, #c084fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: textShine 3s ease-in-out infinite;
+            background-size: 200% auto;
             letter-spacing: -0.02em;
         }
 
-        .hero p {
-            font-size: 1.1rem;
-            color: var(--text-secondary);
-            max-width: 580px;
-            margin: 0 auto;
+        @keyframes textShine {
+            0%, 100% { background-position: 0% center; }
+            50% { background-position: 100% center; }
         }
 
-        /* 2x2 Stats Grid */
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+            animation: fadeInUp 1s 0.2s cubic-bezier(0.4, 0, 0.2, 1) backwards;
+        }
+
+        /* Stats Grid with Glass Cards */
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
             gap: 1.5rem;
-            margin-bottom: 3rem;
+            margin-bottom: 4rem;
         }
 
         .stat-card {
             background: var(--bg-secondary);
             border: 1px solid var(--border-color);
-            border-radius: var(--card-radius);
-            padding: 1.5rem;
-            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-            backdrop-filter: blur(2px);
+            border-radius: 24px;
+            padding: 1.75rem;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: fadeInUp 0.8s ease-out backwards;
+            backdrop-filter: blur(10px);
             position: relative;
             overflow: hidden;
         }
 
-        .stat-card::after {
+        .stat-card::before {
             content: '';
             position: absolute;
             top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
-            transition: left 0.5s;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-1);
+            transform: scaleX(0);
+            transition: transform 0.5s ease;
         }
 
-        .stat-card:hover::after {
-            left: 100%;
-        }
+        .stat-card:nth-child(1) { animation-delay: 0.1s; }
+        .stat-card:nth-child(1)::before { background: var(--gradient-1); }
+        .stat-card:nth-child(2) { animation-delay: 0.2s; }
+        .stat-card:nth-child(2)::before { background: var(--gradient-2); }
+        .stat-card:nth-child(3) { animation-delay: 0.3s; }
+        .stat-card:nth-child(3)::before { background: var(--gradient-3); }
+        .stat-card:nth-child(4) { animation-delay: 0.4s; }
+        .stat-card:nth-child(4)::before { background: var(--gradient-4); }
 
         .stat-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-lg);
-            border-color: var(--accent-primary);
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(99, 102, 241, 0.2);
+            border-color: rgba(99, 102, 241, 0.3);
+        }
+
+        .stat-card:hover::before {
+            transform: scaleX(1);
         }
 
         .stat-header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
+            align-items: flex-start;
+            margin-bottom: 1.25rem;
         }
 
         .stat-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 18px;
+            width: 52px;
+            height: 52px;
+            border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.6rem;
-            background: var(--bg-tertiary);
+            font-size: 1.5rem;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-icon::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, transparent, rgba(255,255,255,0.2), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .stat-card:hover .stat-icon::after {
+            transform: translateX(100%);
+        }
+
+        .stat-icon.success {
+            background: rgba(34, 197, 94, 0.15);
+            color: var(--success);
+            box-shadow: 0 0 20px rgba(34, 197, 94, 0.2);
+        }
+
+        .stat-icon.primary {
+            background: rgba(99, 102, 241, 0.15);
+            color: var(--accent-primary);
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.2);
+        }
+
+        .stat-icon.warning {
+            background: rgba(245, 158, 11, 0.15);
+            color: var(--warning);
+            box-shadow: 0 0 20px rgba(245, 158, 11, 0.2);
+        }
+
+        .stat-icon.info {
+            background: rgba(59, 130, 246, 0.15);
+            color: var(--info);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
         }
 
         .stat-value {
-            font-size: 2.4rem;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 2.25rem;
             font-weight: 800;
             color: var(--text-primary);
             margin-bottom: 0.25rem;
-            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover .stat-value {
+            transform: scale(1.05);
         }
 
         .stat-label {
-            font-size: 0.85rem;
-            font-weight: 500;
+            font-size: 0.875rem;
             color: var(--text-secondary);
+            font-weight: 500;
         }
 
-        /* Search & Filters Bar */
-        .search-filter-bar {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
+        .section-title {
+            font-size: 1.75rem;
             margin-bottom: 2rem;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .search-box {
-            flex: 2;
-            min-width: 200px;
-            position: relative;
-        }
-
-        .search-box i {
-            position: absolute;
-            left: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-tertiary);
-            font-size: 1.2rem;
-        }
-
-        .search-box input {
-            width: 100%;
-            padding: 0.8rem 1rem 0.8rem 2.8rem;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: 60px;
-            font-family: 'Inter', sans-serif;
-            font-size: 0.9rem;
-            color: var(--text-primary);
-            transition: all 0.2s;
-        }
-
-        .search-box input:focus {
-            outline: none;
-            border-color: var(--accent-primary);
-            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
-        }
-
-        .filter-group {
             display: flex;
-            gap: 0.75rem;
             align-items: center;
+            gap: 0.75rem;
+            animation: fadeInUp 0.8s 0.5s ease-out backwards;
         }
 
-        .filter-select {
-            padding: 0.7rem 2rem 0.7rem 1rem;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: 60px;
-            font-family: 'Inter', sans-serif;
-            font-size: 0.9rem;
-            color: var(--text-primary);
-            cursor: pointer;
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 0.8rem center;
+        .section-title i {
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         /* Services Container */
@@ -348,548 +563,976 @@
             display: flex;
             flex-direction: column;
             gap: 1.5rem;
+            margin-bottom: 4rem;
         }
 
         .service-card {
             background: var(--bg-secondary);
             border: 1px solid var(--border-color);
-            border-radius: var(--card-radius);
-            padding: 1.8rem;
-            transition: all 0.3s ease;
-            cursor: pointer;
+            border-radius: 24px;
+            padding: 2rem;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: fadeInUp 0.8s ease-out backwards;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.03), transparent);
+            transition: left 0.7s ease;
+        }
+
+        .service-card:hover::before {
+            left: 100%;
         }
 
         .service-card:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-md);
-            border-color: var(--accent-primary);
+            transform: translateY(-4px) scale(1.01);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(99, 102, 241, 0.2);
+            border-color: rgba(99, 102, 241, 0.3);
         }
 
         .service-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-bottom: 1.5rem;
             flex-wrap: wrap;
             gap: 1rem;
-            margin-bottom: 1.5rem;
         }
 
         .service-info {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 1.25rem;
         }
 
         .service-icon {
-            width: 52px;
-            height: 52px;
-            background: var(--bg-tertiary);
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(139, 92, 246, 0.2));
             border-radius: 18px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.7rem;
-            transition: all 0.2s;
+            font-size: 1.75rem;
+            color: var(--accent-primary);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-icon::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--accent-gradient);
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
         .service-card:hover .service-icon {
-            background: var(--accent-gradient);
+            transform: scale(1.1) rotate(8deg);
+            box-shadow: 0 0 30px rgba(99, 102, 241, 0.4);
+        }
+
+        .service-card:hover .service-icon::after {
+            opacity: 1;
+        }
+
+        .service-card:hover .service-icon i {
             color: white;
-            transform: scale(1.02);
+            position: relative;
+            z-index: 1;
         }
 
         .service-title {
-            font-size: 1.25rem;
+            font-size: 1.35rem;
+            margin-bottom: 0.35rem;
             font-weight: 700;
         }
 
-        .service-status {
-            padding: 0.4rem 1rem;
-            border-radius: 40px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            display: inline-flex;
+        .service-url {
+            font-size: 0.875rem;
+            color: var(--text-tertiary);
+            text-decoration: none;
+            display: flex;
             align-items: center;
-            gap: 0.4rem;
+            gap: 0.35rem;
+            transition: all 0.3s ease;
+            font-weight: 500;
         }
 
-        .service-status.operational { background: rgba(16, 185, 129, 0.12); color: var(--success); }
-        .service-status.degraded { background: rgba(245, 158, 11, 0.12); color: var(--warning); }
-        .service-status.down { background: rgba(239, 68, 68, 0.12); color: var(--error); }
+        .service-url:hover {
+            color: var(--accent-primary);
+            gap: 0.5rem;
+        }
+
+        .service-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.25rem;
+            border-radius: 100px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .service-status.operational {
+            background: rgba(34, 197, 94, 0.15);
+            color: var(--success);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            box-shadow: 0 0 15px rgba(34, 197, 94, 0.2);
+        }
+
+        .service-status.degraded {
+            background: rgba(245, 158, 11, 0.15);
+            color: var(--warning);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.2);
+        }
+
+        .service-status.down {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--error);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.2);
+            animation: errorPulse 2s infinite;
+        }
+
+        @keyframes errorPulse {
+            0%, 100% { box-shadow: 0 0 15px rgba(239, 68, 68, 0.2); }
+            50% { box-shadow: 0 0 25px rgba(239, 68, 68, 0.4); }
+        }
+
+        .uptime-container {
+            margin-bottom: 1rem;
+        }
 
         .uptime-header {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 0.6rem;
-            font-size: 0.75rem;
+            margin-bottom: 1rem;
+            font-size: 0.875rem;
+        }
+
+        .uptime-label {
+            color: var(--text-secondary);
             font-weight: 500;
-            color: var(--text-tertiary);
+        }
+
+        .uptime-value {
+            font-weight: 700;
+            color: var(--text-primary);
+            font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
         .uptime-bar {
             display: flex;
-            gap: 3px;
+            gap: 4px;
             height: 44px;
             border-radius: 12px;
             overflow: hidden;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 4px;
         }
 
         .uptime-segment {
             flex: 1;
-            transition: transform 0.2s;
+            position: relative;
             cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            min-width: 4px;
+            border-radius: 6px;
         }
-        .uptime-segment:hover { transform: scaleY(1.08); }
-        .uptime-segment.success { background: var(--success); }
-        .uptime-segment.warning { background: var(--warning); }
-        .uptime-segment.error { background: var(--error); }
-        .uptime-segment.empty { background: var(--bg-tertiary); }
 
-        /* Footer Premium Styles */
+        .uptime-segment:hover {
+            transform: scaleY(1.2) scaleX(1.1);
+            z-index: 10;
+            box-shadow: 0 0 20px currentColor;
+        }
+
+        .uptime-segment.success { 
+            background: linear-gradient(180deg, #4ade80 0%, #22c55e 100%);
+            box-shadow: 0 2px 8px rgba(34, 197, 94, 0.3);
+        }
+        .uptime-segment.warning { 
+            background: linear-gradient(180deg, #fbbf24 0%, #f59e0b 100%);
+            box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
+        }
+        .uptime-segment.error { 
+            background: linear-gradient(180deg, #f87171 0%, #ef4444 100%);
+            box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+        }
+        .uptime-segment.empty { 
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Enhanced Tooltip */
+        .tooltip {
+            position: fixed;
+            background: rgba(15, 15, 35, 0.95);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 16px;
+            padding: 1.25rem;
+            min-width: 220px;
+            max-width: 300px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(99, 102, 241, 0.2);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 10000;
+            pointer-events: none;
+            backdrop-filter: blur(20px);
+            transform: translateY(10px) scale(0.95);
+        }
+
+        .tooltip.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+        }
+
+        .tooltip-date {
+            font-size: 0.75rem;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .tooltip-status {
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            padding: 0.4rem 1rem;
+            border-radius: 100px;
+            display: inline-block;
+            font-size: 0.875rem;
+        }
+
+        .tooltip-status.success {
+            background: rgba(34, 197, 94, 0.2);
+            color: var(--success);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+
+        .tooltip-status.warning {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--warning);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+
+        .tooltip-status.error {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--error);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .tooltip-uptime {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-top: 0.75rem;
+            line-height: 1.5;
+        }
+
+        /* Footer */
         .footer {
             border-top: 1px solid var(--border-color);
             margin-top: 4rem;
-            background: rgba(var(--bg-secondary), 0.65);
-            backdrop-filter: blur(12px);
+            padding: 3rem 0;
+            position: relative;
+            background: linear-gradient(180deg, transparent 0%, rgba(99, 102, 241, 0.03) 100%);
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-primary), transparent);
         }
 
         .footer-content {
-            max-width: 1280px;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 2.5rem 2rem;
+            padding: 0 2rem;
             display: flex;
             flex-direction: column;
-            gap: 1.8rem;
-        }
-
-        .footer-top {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
+            align-items: center;
             gap: 2rem;
         }
 
-        .footer-branding {
+        .footer-brand {
             display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
+            align-items: center;
+            gap: 0.75rem;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        .footer-brand:hover {
+            transform: scale(1.05);
+            text-shadow: 0 0 20px rgba(99, 102, 241, 0.5);
         }
 
         .footer-links {
             display: flex;
-            gap: 2rem;
+            gap: 2.5rem;
             flex-wrap: wrap;
+            justify-content: center;
         }
+
         .footer-links a {
             color: var(--text-secondary);
             text-decoration: none;
             font-size: 0.9rem;
+            transition: all 0.3s ease;
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            transition: color 0.2s;
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
         }
-        .footer-links a:hover { color: var(--accent-primary); transform: translateY(-1px); }
+
+        .footer-links a::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--accent-gradient);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+
+        .footer-links a:hover {
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .footer-links a:hover::before {
+            opacity: 1;
+        }
 
         .footer-bottom {
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
             align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
-            padding-top: 1rem;
-            border-top: 1px solid var(--border-color);
-            font-size: 0.8rem;
+            gap: 0.75rem;
             color: var(--text-tertiary);
+            font-size: 0.875rem;
         }
 
         .render-time {
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            font-size: 0.75rem;
+            padding: 0.6rem 1.25rem;
             background: var(--bg-tertiary);
-            padding: 0.4rem 1rem;
-            border-radius: 40px;
-        }
-
-        /* Tooltip */
-        .tooltip {
-            position: fixed;
-            background: var(--bg-secondary);
+            border-radius: 100px;
             border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 0.8rem 1rem;
-            min-width: 180px;
-            box-shadow: var(--shadow-lg);
-            opacity: 0;
-            visibility: hidden;
-            transition: 0.1s;
-            z-index: 10000;
-            pointer-events: none;
-            backdrop-filter: blur(8px);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            transition: all 0.3s ease;
         }
-        .tooltip.visible { opacity: 1; visibility: visible; }
 
-        /* RGB Lightning Effect */
-        .rgb-flash {
-            position: fixed;
-            pointer-events: none;
-            width: 200px;
+        .render-time:hover {
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 15px rgba(99, 102, 241, 0.2);
+        }
+
+        /* Loading Skeleton */
+        .loading-skeleton {
+            background: linear-gradient(90deg, var(--bg-tertiary) 25%, rgba(99, 102, 241, 0.1) 50%, var(--bg-tertiary) 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: 24px;
             height: 200px;
-            border-radius: 50%;
-            transform: translate(-50%, -50%) scale(0);
-            z-index: 9999;
-            mix-blend-mode: overlay;
-            animation: rgbPop 0.55s ease-out forwards;
-        }
-        @keyframes rgbPop {
-            0% { transform: translate(-50%, -50%) scale(0); opacity: 0.9; }
-            100% { transform: translate(-50%, -50%) scale(4); opacity: 0; }
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border-color);
         }
 
-        .no-results {
-            text-align: center;
-            padding: 3rem;
-            color: var(--text-tertiary);
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
         }
 
-        @media (max-width: 680px) {
-            .stats-grid { grid-template-columns: 1fr; }
-            .main-content { padding: 6rem 1rem 2rem; }
-            .service-header { flex-direction: column; align-items: flex-start; }
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, var(--accent-primary), var(--accent-secondary));
+            border-radius: 5px;
+            border: 2px solid var(--bg-primary);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, var(--accent-secondary), var(--accent-tertiary));
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                padding: 1rem;
+            }
+
+            .main-content {
+                padding: 7rem 1rem 2rem;
+            }
+
+            .service-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .uptime-bar {
+                height: 36px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .uptime-segment {
+                min-width: 3px;
+            }
+
+            .floating-orb {
+                filter: blur(60px);
+                opacity: 0.3;
+            }
+        }
+
+        /* Connection Lines Animation */
+        .connection-line {
+            position: absolute;
+            background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.3), transparent);
+            height: 1px;
+            width: 100%;
+            animation: linePulse 3s infinite;
+        }
+
+        @keyframes linePulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.8; }
         }
     </style>
 </head>
 <body>
-    <header class="header">
+    <!-- Animated Background -->
+    <div class="bg-animation">
+        <div class="bg-gradient"></div>
+        <div class="floating-orb orb-1"></div>
+        <div class="floating-orb orb-2"></div>
+        <div class="floating-orb orb-3"></div>
+    </div>
+    <div class="noise-overlay"></div>
+
+    <header class="header" id="header">
         <div class="header-content">
             <a href="#" class="logo">
-                <div class="logo-icon"><i class="ph ph-shield-check"></i></div>
-                <span>QUINX STATUS</span>
+                <div class="logo-icon">
+                    <i class="ph ph-activity"></i>
+                </div>
+                <span>Quinx Status</span>
             </a>
             <div class="header-actions">
-                <button class="theme-toggle" id="themeToggle"><i class="ph ph-moon" id="themeIcon"></i></button>
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle effects">
+                    <i class="ph ph-sparkle" id="themeIcon"></i>
+                </button>
             </div>
         </div>
     </header>
 
     <main class="main-content">
         <section class="hero">
-            <div class="status-badge" id="overallStatus"><span class="status-dot"></span> Syncing telemetry...</div>
-            <h1>Infrastructure Pulse</h1>
-            <p>Managed by <strong>Shinei Nouzen</strong> • Quinx Edge • 99.99% SLA commitment • Real-time observability</p>
+            <div class="status-badge" id="overallStatus">
+                <span class="status-dot"></span>
+                Loading Status...
+            </div>
+            <h1>System Status</h1>
+            <p>Real-time monitoring of all services and infrastructure. Check uptime statistics and incident history.</p>
         </section>
 
-        <!-- 2x2 Stats Grid -->
-        <div class="stats-grid" id="statsGrid">
-            <div class="stat-card"><div class="stat-header"><div class="stat-icon"><i class="ph ph-chart-line-up"></i></div></div><div class="stat-value" id="avgUptime">--%</div><div class="stat-label">Average Uptime</div></div>
-            <div class="stat-card"><div class="stat-header"><div class="stat-icon"><i class="ph ph-server"></i></div></div><div class="stat-value" id="activeServices">--</div><div class="stat-label">Active Services</div></div>
-            <div class="stat-card"><div class="stat-header"><div class="stat-icon"><i class="ph ph-warning"></i></div></div><div class="stat-value" id="activeIncidents">0</div><div class="stat-label">Active Incidents</div></div>
-            <div class="stat-card"><div class="stat-header"><div class="stat-icon"><i class="ph ph-calendar-blank"></i></div></div><div class="stat-value" id="monitoringPeriod">30d</div><div class="stat-label">Monitoring Periods</div></div>
-        </div>
+        <section class="stats-grid" id="statsGrid">
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon success">
+                        <i class="ph ph-check-circle"></i>
+                    </div>
+                </div>
+                <div class="stat-value" id="avgUptime">--%</div>
+                <div class="stat-label">Average Uptime</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon primary">
+                        <i class="ph ph-globe"></i>
+                    </div>
+                </div>
+                <div class="stat-value" id="activeServices">--</div>
+                <div class="stat-label">Active Services</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon warning">
+                        <i class="ph ph-warning-circle"></i>
+                    </div>
+                </div>
+                <div class="stat-value" id="activeIncidents">0</div>
+                <div class="stat-label">Active Incidents</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon info">
+                        <i class="ph ph-clock"></i>
+                    </div>
+                </div>
+                <div class="stat-value">30d</div>
+                <div class="stat-label">Monitoring Period</div>
+            </div>
+        </section>
 
-        <!-- Search & Filters -->
-        <div class="search-filter-bar">
-            <div class="search-box"><i class="ph ph-magnifying-glass"></i><input type="text" id="searchInput" placeholder="Search service..."></div>
-            <div class="filter-group"><select id="statusFilter" class="filter-select"><option value="all">All status</option><option value="operational">Operational</option><option value="degraded">Degraded</option><option value="down">Down</option></select></div>
-        </div>
-
-        <div class="services-container" id="servicesContainer"><div class="loading-skeleton" style="height: 180px; text-align:center; padding:2rem;"><i class="ph ph-circle-notch ph-spin"></i> Loading infrastructure...</div></div>
+        <section>
+            <h2 class="section-title">
+                <i class="ph ph-server"></i>
+                Services
+            </h2>
+            <div class="services-container" id="servicesContainer">
+                <div class="loading-skeleton"></div>
+                <div class="loading-skeleton"></div>
+                <div class="loading-skeleton"></div>
+            </div>
+        </section>
     </main>
 
     <footer class="footer">
         <div class="footer-content">
-            <div class="footer-top">
-                <div class="footer-branding">
-                    <div style="display: flex; gap: 0.5rem; align-items: center;">
-                        <div class="logo-icon" style="width: 32px; height: 32px;"><i class="ph ph-activity"></i></div>
-                        <strong style="font-size: 1.2rem;">Shinei Nouzen</strong>
-                    </div>
-                    <span style="font-size: 0.8rem; color: var(--text-tertiary);">Principal Site Reliability Engineer • Zero-trust edge infrastructure</span>
+            <div class="footer-brand">
+                <div class="logo-icon" style="width: 36px; height: 36px; font-size: 1rem;">
+                    <i class="ph ph-activity"></i>
                 </div>
-                <div class="footer-links">
-                    <a href="https://github.com/Shineii86"><i class="ph ph-github-logo"></i> GitHub</a>
-                    <a href="https://telegram.me/Shineii86"><i class="ph ph-telegram-logo"></i> Telegram</a>
-                    <a href="https://github.com/Shineii86/Status"><i class="ph ph-code"></i> Source</a>
-                </div>
+                <span>Quinx Status Page</span>
             </div>
+            <nav class="footer-links">
+                <a href="https://github.com/Shineii86" target="_blank" rel="noopener">
+                    <i class="ph ph-github-logo"></i>
+                    GitHub
+                </a>
+                <a href="https://t.me/Shineii86" target="_blank" rel="noopener">
+                    <i class="ph ph-telegram-logo"></i>
+                    Contact
+                </a>
+                <a href="https://github.com/Shineii86/Status" target="_blank" rel="noopener">
+                    <i class="ph ph-code"></i>
+                    Source
+                </a>
+            </nav>
             <div class="footer-bottom">
-                <div class="render-time"><i class="ph ph-timer"></i><span id="renderTime">-- ms</span></div>
-                <p>© <time id="copyrightYear" datetime="2026">2026</time> Shinei Nouzen — Quinx Systems. All Rights Reserved.</p>
+                <div class="render-time">
+                    <i class="ph ph-timer"></i>
+                    <span id="renderTime">Loading...</span>
+                </div>
+                <p>&copy; 2026 Shinei Nouzen. All Rights Reserved.</p>
             </div>
         </div>
     </footer>
-    <div id="globalTooltip" class="tooltip"><div class="tooltip-date" id="tooltipDate"></div><div class="tooltip-status" id="tooltipStatus"></div></div>
+
+    <div id="globalTooltip" class="tooltip">
+        <div class="tooltip-date" id="tooltipDate"></div>
+        <div class="tooltip-status" id="tooltipStatus"></div>
+        <div class="tooltip-uptime" id="tooltipUptime"></div>
+    </div>
 
     <script>
-        (function() {
-            const pageStart = performance.now();
-            let serviceCards = []; // { element, name, statusClass }
-            
-            // --- RGB LIGHTING GRADIENT EFFECT (enhanced) ---
-            function addRGBLightingEffect(e) {
-                const target = e.target;
-                if (target.closest('.search-box') || target.closest('.filter-select') || target.closest('.theme-toggle')) return;
-                const x = e.clientX, y = e.clientY;
-                const flash = document.createElement('div');
-                flash.className = 'rgb-flash';
-                // Dynamic neon gradient with shifting hues
-                const hue1 = Math.random() * 360;
-                const hue2 = (hue1 + 140) % 360;
-                flash.style.background = `radial-gradient(circle, hsla(${hue1}, 100%, 65%, 0.7) 0%, hsla(${hue2}, 100%, 60%, 0.5) 50%, transparent 80%)`;
-                flash.style.left = x + 'px';
-                flash.style.top = y + 'px';
-                document.body.appendChild(flash);
-                setTimeout(() => flash.remove(), 550);
-            }
-            document.addEventListener('click', addRGBLightingEffect);
-            document.addEventListener('touchstart', addRGBLightingEffect);
-            
-            // --- THEME MANAGEMENT ---
-            const themeToggle = document.getElementById('themeToggle');
-            const themeIcon = document.getElementById('themeIcon');
-            const html = document.documentElement;
-            const savedTheme = localStorage.getItem('theme') || 'light';
-            html.setAttribute('data-theme', savedTheme);
-            function updateIcon(theme) { themeIcon.className = theme === 'light' ? 'ph ph-moon' : 'ph ph-sun'; }
-            updateIcon(savedTheme);
-            themeToggle.addEventListener('click', () => {
-                const cur = html.getAttribute('data-theme');
-                const next = cur === 'light' ? 'dark' : 'light';
-                html.setAttribute('data-theme', next);
-                localStorage.setItem('theme', next);
-                updateIcon(next);
+        const pageStartTime = performance.now();
+        const maxDays = 30;
+        let animationEnabled = true;
+
+        // Effects Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        const orbs = document.querySelectorAll('.floating-orb');
+
+        themeToggle.addEventListener('click', () => {
+            animationEnabled = !animationEnabled;
+
+            orbs.forEach(orb => {
+                orb.style.animationPlayState = animationEnabled ? 'running' : 'paused';
+                orb.style.opacity = animationEnabled ? '0.4' : '0';
             });
-            
-            // --- UTILITIES ---
-            function getColor(uptimeVal) { 
-                if (uptimeVal == null) return "empty"; 
-                if (uptimeVal >= 0.99) return "success"; 
-                if (uptimeVal < 0.7) return "error"; 
-                return "warning"; 
+
+            document.querySelector('.bg-gradient').style.animationPlayState = animationEnabled ? 'running' : 'paused';
+
+            themeIcon.style.transform = animationEnabled ? 'rotate(360deg)' : 'rotate(0deg)';
+            themeIcon.className = animationEnabled ? 'ph ph-sparkle' : 'ph ph-sparkle-slash';
+
+            setTimeout(() => {
+                themeIcon.style.transform = 'rotate(0deg)';
+            }, 300);
+        });
+
+        // Header scroll effect
+        let lastScroll = 0;
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('header');
+            const currentScroll = window.pageYOffset;
+
+            if (currentScroll > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
             }
-            function getStatusText(color) { 
-                if (color === "success") return "Operational"; 
-                if (color === "error") return "Major Outage"; 
-                if (color === "warning") return "Degraded"; 
-                return "No Data"; 
-            }
-            
-            // Mock generator for demo / fallback
-            function generateMockUptimeArray(days = 30) {
-                let arr = [];
-                for (let i = 0; i < days; i++) {
-                    let rand = Math.random();
-                    if (rand > 0.92) arr.push(rand > 0.96 ? 0.1 : 0.55);
-                    else arr.push(1);
+
+            lastScroll = currentScroll;
+        });
+
+        // Original Logic with Enhancements
+        async function genReportLog(container, key, url) {
+            try {
+                const response = await fetch("logs/" + key + "_report.log");
+                let statusLines = "";
+                if (response.ok) {
+                    statusLines = await response.text();
                 }
-                const avg = (arr.reduce((a,b)=>a+b,0)/arr.length*100).toFixed(1);
-                arr.upTime = avg + "%";
-                return arr;
+                const normalized = normalizeData(statusLines);
+                const statusStream = constructStatusStream(key, url, normalized);
+                container.appendChild(statusStream);
+            } catch (error) {
+                console.error("Error loading report for " + key, error);
             }
-            
-            // Tooltip handlers
-            const tooltipDiv = document.getElementById('globalTooltip');
-            const tooltipDateSpan = document.getElementById('tooltipDate');
-            const tooltipStatusSpan = document.getElementById('tooltipStatus');
-            function showTooltip(e, date, color) {
-                tooltipDateSpan.textContent = date.toDateString();
-                tooltipStatusSpan.textContent = getStatusText(color);
-                tooltipDiv.classList.add('visible');
-                moveTooltip(e);
+        }
+
+        function constructStatusStream(key, url, uptimeData) {
+            const lastSet = uptimeData[0];
+            const color = getColor(lastSet);
+            const statusText = getStatusText(color);
+            const uptimePercent = uptimeData.upTime || "--%";
+
+            const card = document.createElement('div');
+            card.className = 'service-card';
+            card.style.animationDelay = Math.random() * 0.3 + 's';
+
+            const statusClass = color === 'success' ? 'operational' : color === 'failure' ? 'down' : color === 'partial' ? 'degraded' : 'down';
+            const statusIcon = color === 'success' ? 'ph-check-circle' : color === 'failure' ? 'ph-x-circle' : 'ph-warning-circle';
+
+            let historyHtml = '';
+            for (let ii = maxDays - 1; ii >= 0; ii--) {
+                const dayColor = getColor(uptimeData[ii]);
+                const date = new Date();
+                date.setDate(date.getDate() - ii);
+                historyHtml += constructStatusSquare(key, date, uptimeData[ii], dayColor);
             }
-            function moveTooltip(e) {
-                let left = e.clientX - 110;
-                let top = e.clientY - 55;
-                left = Math.min(window.innerWidth - 190, Math.max(10, left));
-                top = Math.max(10, top);
-                tooltipDiv.style.left = left + 'px';
-                tooltipDiv.style.top = top + 'px';
-            }
-            function hideTooltip() { tooltipDiv.classList.remove('visible'); }
-            
-            // Build uptime segments
-            function buildUptimeSegments(key, uptimeData) {
-                let segHtml = '';
-                for (let i = 29; i >= 0; i--) {
-                    const dayColor = getColor(uptimeData[i]);
-                    const dateObj = new Date(); dateObj.setDate(dateObj.getDate() - i);
-                    segHtml += `<div class="uptime-segment ${dayColor}" data-service="${key}" data-date="${dateObj.toISOString()}" data-color="${dayColor}"></div>`;
-                }
-                return segHtml;
-            }
-            
-            function createServiceCard(key, url, uptimeArray, statusColor, uptimePercent) {
-                const statusClass = statusColor === 'success' ? 'operational' : (statusColor === 'warning' ? 'degraded' : 'down');
-                const statusIcon = statusColor === 'success' ? 'ph-check-circle' : (statusColor === 'warning' ? 'ph-warning-circle' : 'ph-x-circle');
-                const statusText = getStatusText(statusColor);
-                const card = document.createElement('div');
-                card.className = 'service-card';
-                card.setAttribute('data-service-name', key.toLowerCase());
-                card.setAttribute('data-status', statusClass);
-                card.innerHTML = `
-                    <div class="service-header">
-                        <div class="service-info"><div class="service-icon"><i class="ph ph-database"></i></div><div><h3 class="service-title">${escapeHtml(key)}</h3><a href="${escapeHtml(url)}" style="font-size:0.75rem;color:var(--text-tertiary);" target="_blank">${escapeHtml(url.replace(/^https?:\/\//,''))} <i class="ph ph-arrow-up-right"></i></a></div></div>
-                        <div class="service-status ${statusClass}"><i class="ph ${statusIcon}"></i> ${statusText}</div>
+
+            card.innerHTML = `
+                <div class="service-header">
+                    <div class="service-info">
+                        <div class="service-icon">
+                            <i class="ph ph-globe"></i>
+                        </div>
+                        <div>
+                            <h3 class="service-title">${key}</h3>
+                            <a href="${url}" class="service-url" target="_blank" rel="noopener">
+                                ${url.replace('https://', '').replace('http://', '')}
+                                <i class="ph ph-arrow-up-right"></i>
+                            </a>
+                        </div>
                     </div>
-                    <div class="uptime-container"><div class="uptime-header"><span class="uptime-label">Last 30 days history</span><span class="uptime-value">${uptimePercent}</span></div><div class="uptime-bar" id="bar-${key.replace(/\s/g,'')}"></div></div>
-                `;
-                const barContainer = card.querySelector('.uptime-bar');
-                barContainer.innerHTML = buildUptimeSegments(key, uptimeArray);
-                return card;
+                    <div class="service-status ${statusClass}">
+                        <i class="ph ${statusIcon}"></i>
+                        ${statusText}
+                    </div>
+                </div>
+                <div class="uptime-container">
+                    <div class="uptime-header">
+                        <span class="uptime-label">Last 30 days</span>
+                        <span class="uptime-value">${uptimePercent}</span>
+                    </div>
+                    <div class="uptime-bar">
+                        ${historyHtml}
+                    </div>
+                </div>
+            `;
+
+            return card;
+        }
+
+        function constructStatusSquare(key, date, uptimeVal, color) {
+            const segment = document.createElement('div');
+            segment.className = `uptime-segment ${color}`;
+
+            segment.addEventListener('mouseenter', (e) => showTooltip(e, key, date, color, uptimeVal));
+            segment.addEventListener('mouseleave', hideTooltip);
+            segment.addEventListener('mousemove', moveTooltip);
+
+            return segment.outerHTML;
+        }
+
+        function getColor(uptimeVal) {
+            if (uptimeVal == null) return "empty";
+            if (uptimeVal == 1) return "success";
+            if (uptimeVal < 0.3) return "error";
+            return "warning";
+        }
+
+        function getStatusText(color) {
+            if (color == "empty") return "No Data";
+            if (color == "success") return "Operational";
+            if (color == "error") return "Major Outage";
+            if (color == "warning") return "Degraded";
+            return "Unknown";
+        }
+
+        function getStatusDescriptiveText(color) {
+            if (color == "empty") return "No data available for this day.";
+            if (color == "success") return "All systems operational.";
+            if (color == "error") return "Major outage detected.";
+            if (color == "warning") return "Partial degradation detected.";
+            return "Unknown status.";
+        }
+
+        function normalizeData(statusLines) {
+            const rows = statusLines.split("\n");
+            const dateNormalized = splitRowsByDate(rows);
+
+            let relativeDateMap = {};
+            const now = Date.now();
+            for (const [key, val] of Object.entries(dateNormalized)) {
+                if (key == "upTime") continue;
+                const relDays = getRelativeDays(now, new Date(key).getTime());
+                relativeDateMap[relDays] = getDayAverage(val);
             }
-            
-            function escapeHtml(str) { return str.replace(/[&<>]/g, function(m){if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m;}); }
-            
-            // Core: load services data
-            async function loadAllServices() {
-                const container = document.getElementById('servicesContainer');
-                container.innerHTML = '<div style="text-align:center;padding:2rem;"><i class="ph ph-circle-notch ph-spin"></i> Fetching telemetry from edge...</div>';
-                let servicesList = [];
-                try {
-                    const resp = await fetch('urls.cfg');
-                    if (resp.ok) {
-                        const text = await resp.text();
-                        const lines = text.split('\n');
-                        for (let line of lines) {
-                            if (line.includes('=')) {
-                                let [key, url] = line.split('=');
-                                if (key && url) servicesList.push({ key: key.trim(), url: url.trim() });
+
+            relativeDateMap.upTime = dateNormalized.upTime;
+            return relativeDateMap;
+        }
+
+        function getDayAverage(val) {
+            if (!val || val.length == 0) return null;
+            return val.reduce((a, v) => a + v) / val.length;
+        }
+
+        function getRelativeDays(date1, date2) {
+            return Math.floor(Math.abs((date1 - date2) / (24 * 3600 * 1000)));
+        }
+
+        function splitRowsByDate(rows) {
+            let dateValues = {};
+            let sum = 0, count = 0;
+
+            for (var ii = 0; ii < rows.length; ii++) {
+                const row = rows[ii];
+                if (!row) continue;
+
+                const [dateTimeStr, resultStr] = row.split(",", 2);
+                const dateTime = new Date(Date.parse(dateTimeStr.replace(/-/g, "/") + " GMT"));
+                const dateStr = dateTime.toDateString();
+
+                let resultArray = dateValues[dateStr];
+                if (!resultArray) {
+                    resultArray = [];
+                    dateValues[dateStr] = resultArray;
+                    if (dateValues.length > maxDays) break;
+                }
+
+                let result = 0;
+                if (resultStr && resultStr.trim() == "success") result = 1;
+                sum += result;
+                count++;
+                resultArray.push(result);
+            }
+
+            const upTime = count ? ((sum / count) * 100).toFixed(2) + "%" : "--%";
+            dateValues.upTime = upTime;
+            return dateValues;
+        }
+
+        // Enhanced Tooltip
+        const tooltip = document.getElementById('globalTooltip');
+        const tooltipDate = document.getElementById('tooltipDate');
+        const tooltipStatus = document.getElementById('tooltipStatus');
+        const tooltipUptime = document.getElementById('tooltipUptime');
+
+        function showTooltip(e, key, date, color, uptimeVal) {
+            tooltipDate.textContent = date.toDateString();
+            tooltipStatus.textContent = getStatusText(color);
+            tooltipStatus.className = 'tooltip-status ' + color;
+            tooltipUptime.textContent = getStatusDescriptiveText(color);
+
+            tooltip.classList.add('visible');
+            moveTooltip(e);
+        }
+
+        function moveTooltip(e) {
+            const x = e.clientX;
+            const y = e.clientY;
+            const rect = tooltip.getBoundingClientRect();
+
+            let left = x - rect.width / 2;
+            let top = y - rect.height - 15;
+
+            if (left < 15) left = 15;
+            if (left + rect.width > window.innerWidth - 15) left = window.innerWidth - rect.width - 15;
+            if (top < 15) top = y + 25;
+
+            tooltip.style.left = left + 'px';
+            tooltip.style.top = top + 'px';
+        }
+
+        function hideTooltip() {
+            tooltip.classList.remove('visible');
+        }
+
+        // Main Load Function
+        async function genAllReports() {
+            const container = document.getElementById('servicesContainer');
+            container.innerHTML = '';
+
+            try {
+                const response = await fetch("urls.cfg");
+                if (!response.ok) throw new Error('Failed to load urls.cfg');
+
+                const configText = await response.text();
+                const configLines = configText.split("\n");
+
+                let totalUptime = 0;
+                let uptimeCount = 0;
+                let incidentCount = 0;
+                let serviceCount = 0;
+
+                for (let ii = 0; ii < configLines.length; ii++) {
+                    const configLine = configLines[ii];
+                    const [key, url] = configLine.split("=");
+                    if (!key || !url) continue;
+
+                    serviceCount++;
+
+                    try {
+                        const logResponse = await fetch("logs/" + key + "_report.log");
+                        if (logResponse.ok) {
+                            const logText = await logResponse.text();
+                            const normalized = normalizeData(logText);
+                            if (normalized.upTime && normalized.upTime !== '--%') {
+                                totalUptime += parseFloat(normalized.upTime);
+                                uptimeCount++;
+                            }
+                            if (normalized[0] !== undefined && normalized[0] < 1) {
+                                incidentCount++;
                             }
                         }
-                    } else throw new Error('cfg missing');
-                } catch(e) {
-                    console.warn("Demo mode: using default services");
-                    servicesList = [
-                        { key: "Core API Gateway", url: "https://api.quinx.cloud" },
-                        { key: "Auth Federation", url: "https://auth.shinei.dev" },
-                        { key: "Edge CDN", url: "https://cdn.edge.net" },
-                        { key: "Database Cluster", url: "https://db.internal" },
-                        { key: "Message Queue", url: "https://mq.secure.sh" },
-                        { key: "Observability Stack", url: "https://monitor.quinx.io" }
-                    ];
+                    } catch (e) {}
+
+                    await genReportLog(container, key.trim(), url.trim());
                 }
-                
-                let totalUptimeSum = 0; let uptimeCount = 0; let incidentCount = 0;
-                let maxDays = 30;
-                const builtCards = [];
-                for (let svc of servicesList) {
-                    let uptimeArray = null;
-                    let uptimePercent = '--%';
-                    try {
-                        const logResp = await fetch(`logs/${svc.key}_report.log`);
-                        if (logResp.ok) {
-                            const logText = await logResp.text();
-                            const rows = logText.split('\n');
-                            let dateMap = {};
-                            for (let row of rows) {
-                                if (!row.trim()) continue;
-                                let [dateTimeStr, resultStr] = row.split(',');
-                                let date = new Date(Date.parse(dateTimeStr.replace(/-/g,"/") + " GMT"));
-                                let dayKey = date.toDateString();
-                                if (!dateMap[dayKey]) dateMap[dayKey] = [];
-                                dateMap[dayKey].push(resultStr?.trim() === 'success' ? 1 : 0);
-                            }
-                            let arr30 = [];
-                            for (let i = 29; i >= 0; i--) {
-                                let d = new Date(); d.setDate(d.getDate() - i);
-                                let dayStr = d.toDateString();
-                                let vals = dateMap[dayStr];
-                                let avg = vals ? vals.reduce((a,b)=>a+b,0)/vals.length : null;
-                                arr30.push(avg);
-                            }
-                            let sumValid = 0, countValid = 0;
-                            for (let v of arr30) { if(v !== null && v !== undefined) { sumValid += v; countValid++; } }
-                            uptimePercent = countValid ? ((sumValid/countValid)*100).toFixed(2)+'%' : '--%';
-                            uptimeArray = arr30;
-                            if (arr30[0] !== undefined && arr30[0] < 1) incidentCount++;
-                        } else throw new Error();
-                    } catch(e) {
-                        uptimeArray = generateMockUptimeArray(30);
-                        uptimePercent = uptimeArray.upTime;
-                        if (uptimeArray[0] < 0.99) incidentCount++;
-                    }
-                    const lastStatus = getColor(uptimeArray ? uptimeArray[0] : 1);
-                    const numericPercent = parseFloat(uptimePercent);
-                    if (!isNaN(numericPercent)) totalUptimeSum += numericPercent;
-                    else totalUptimeSum += 99.9;
-                    uptimeCount++;
-                    const card = createServiceCard(svc.key, svc.url, uptimeArray || [], lastStatus, uptimePercent);
-                    builtCards.push({ element: card, name: svc.key.toLowerCase(), statusClass: lastStatus === 'success' ? 'operational' : (lastStatus === 'warning' ? 'degraded' : 'down') });
+
+                // Update stats with animation
+                animateValue('activeServices', 0, serviceCount, 1000);
+                animateValue('activeIncidents', 0, incidentCount, 1000);
+
+                if (uptimeCount > 0) {
+                    const avg = (totalUptime / uptimeCount).toFixed(2);
+                    document.getElementById('avgUptime').textContent = avg + '%';
                 }
-                container.innerHTML = '';
-                builtCards.forEach(c => { container.appendChild(c.element); serviceCards.push(c); });
-                
-                // Update Stats
-                document.getElementById('activeServices').innerText = builtCards.length;
-                document.getElementById('activeIncidents').innerText = incidentCount;
-                const avgUptimeVal = uptimeCount ? (totalUptimeSum / uptimeCount).toFixed(2) : '99.98';
-                document.getElementById('avgUptime').innerText = avgUptimeVal + '%';
-                document.getElementById('monitoringPeriod').innerHTML = '30 Days';
-                const overallDiv = document.getElementById('overallStatus');
-                if (incidentCount === 0) { overallDiv.innerHTML = '<span class="status-dot"></span> All Systems Operational'; overallDiv.style.background = 'rgba(16,185,129,0.12)'; }
-                else { overallDiv.innerHTML = `<span class="status-dot" style="background:var(--error);"></span> ${incidentCount} Active Incident${incidentCount>1?'s':''}`; overallDiv.style.background = 'rgba(239,68,68,0.12)'; }
-                
-                // Anime.js counters
-                anime({ targets: { val: 0 }, val: parseFloat(avgUptimeVal), round: 2, easing: 'easeOutQuad', update: a => document.getElementById('avgUptime').innerHTML = a.animations[0].currentValue.toFixed(2)+'%' });
-                anime({ targets: {val:0}, val: builtCards.length, round:1, update: a => document.getElementById('activeServices').innerHTML = Math.round(a.animations[0].currentValue) });
-                anime({ targets: {val:0}, val: incidentCount, round:1, update: a => document.getElementById('activeIncidents').innerHTML = Math.round(a.animations[0].currentValue) });
-                
-                // Attach tooltip events to segments
-                container.querySelectorAll('.uptime-segment').forEach(seg => {
-                    seg.addEventListener('mouseenter', (e) => {
-                        const color = seg.getAttribute('data-color');
-                        const dateStr = seg.getAttribute('data-date');
-                        if (dateStr) showTooltip(e, new Date(dateStr), color);
-                        else showTooltip(e, new Date(), color);
-                    });
-                    seg.addEventListener('mousemove', moveTooltip);
-                    seg.addEventListener('mouseleave', hideTooltip);
-                });
-                applyFilters();
+
+                // Update overall status
+                const overallStatus = document.getElementById('overallStatus');
+                if (incidentCount === 0) {
+                    overallStatus.innerHTML = '<span class="status-dot"></span>All Systems Operational';
+                    overallStatus.className = 'status-badge';
+                } else if (incidentCount < serviceCount / 2) {
+                    overallStatus.innerHTML = '<span class="status-dot"></span>' + incidentCount + ' Service' + (incidentCount > 1 ? 's' : '') + ' Degraded';
+                    overallStatus.className = 'status-badge warning';
+                } else {
+                    overallStatus.innerHTML = '<span class="status-dot"></span>Major Outage';
+                    overallStatus.className = 'status-badge error';
+                }
+
+            } catch (error) {
+                console.error("Error loading reports:", error);
+                container.innerHTML = '<div style="text-align: center; padding: 3rem; color: var(--text-secondary);"><i class="ph ph-warning-circle" style="font-size: 3rem; margin-bottom: 1rem; display: block; color: var(--error);"></i>Failed to load services. Please check your urls.cfg file.</div>';
             }
-            
-            function applyFilters() {
-                const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-                const statusFilter = document.getElementById('statusFilter').value;
-                let visibleCount = 0;
-                serviceCards.forEach(card => {
-                    const el = card.element;
-                    const nameMatch = card.name.includes(searchTerm);
-                    const statusMatch = statusFilter === 'all' || card.statusClass === statusFilter;
-                    if (nameMatch && statusMatch) { el.style.display = ''; visibleCount++; }
-                    else { el.style.display = 'none'; }
-                });
-                const container = document.getElementById('servicesContainer');
-                const existingMsg = container.querySelector('.no-results');
-                if (visibleCount === 0 && !existingMsg) {
-                    const msg = document.createElement('div'); msg.className = 'no-results'; msg.innerHTML = '<i class="ph ph-folder-open" style="font-size:2rem;"></i><p>No services match your filters.</p>';
-                    container.appendChild(msg);
-                } else if (visibleCount > 0 && existingMsg) existingMsg.remove();
+
+            // Render time
+            const renderTime = Math.round(performance.now() - pageStartTime);
+            document.getElementById('renderTime').textContent = `Page rendered in ${renderTime}ms`;
+        }
+
+        // Number animation function
+        function animateValue(id, start, end, duration) {
+            const obj = document.getElementById(id);
+            const range = end - start;
+            const minTimer = 50;
+            let stepTime = Math.abs(Math.floor(duration / range));
+            stepTime = Math.max(stepTime, minTimer);
+            let startTime = new Date().getTime();
+            let endTime = startTime + duration;
+            let timer;
+
+            function run() {
+                let now = new Date().getTime();
+                let remaining = Math.max((endTime - now) / duration, 0);
+                let value = Math.round(end - (remaining * range));
+                obj.innerHTML = value;
+                if (value == end) {
+                    clearInterval(timer);
+                }
             }
-            
-            document.getElementById('searchInput').addEventListener('input', applyFilters);
-            document.getElementById('statusFilter').addEventListener('change', applyFilters);
-            
-            // Auto-update Copyright Year (primary requirement)
-            const yearSpan = document.getElementById('copyrightYear');
-            const currentYear = new Date().getFullYear();
-            yearSpan.textContent = currentYear;
-            yearSpan.setAttribute('datetime', currentYear);
-            // Additionally ensure .footer-bottom time selector as fallback
-            const footerTime = document.querySelector('.footer-bottom time');
-            if (footerTime) { footerTime.dateTime = currentYear; footerTime.textContent = currentYear; }
-            
-            // Render time performance
-            const renderDuration = Math.round(performance.now() - pageStart);
-            document.getElementById('renderTime').innerText = `${renderDuration} ms`;
-            
-            // Kickstart with anime entrance
-            loadAllServices().then(() => {
-                anime({ targets: '.service-card', translateY: [20, 0], opacity: [0, 1], delay: anime.stagger(70), duration: 550, easing: 'easeOutCubic' });
-                anime({ targets: '.stat-card', scale: [0.94, 1], opacity: [0,1], delay: anime.stagger(90), duration: 600 });
+
+            timer = setInterval(run, stepTime);
+            run();
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', genAllReports);
+
+        // Intersection Observer for scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
             });
-        })();
+        }, observerOptions);
+
+        // Observe elements after load
+        setTimeout(() => {
+            document.querySelectorAll('.service-card, .stat-card').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(el);
+            });
+        }, 100);
     </script>
 </body>
 </html>
