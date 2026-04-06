@@ -2,7 +2,8 @@ name: Scheduled Health Check
 
 on:
   schedule:
-    - cron: "30 0 */7 * *"
+    - cron: "0 19 * * *"  # 12:00 AM IST (00:00 IST) = 6:30 PM UTC previous day
+    # Alternative: 30 18 * * * for 12:00 AM IST exactly
   workflow_dispatch:
 
 permissions:
