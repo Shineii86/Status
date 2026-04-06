@@ -4,185 +4,171 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shinei Nouzen | System Status</title>
-    <meta name="description" content="Real-time monitoring dashboard for all services and infrastructure">
 
-    <!-- Preconnect for Performance -->
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Phosphor Icons -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
     <style>
-        /* ===== CSS VARIABLES & THEME ===== */
         :root {
-            --bg-primary: #fafafa;
-            --bg-secondary: #ffffff;
-            --bg-tertiary: #f4f4f5;
-            --bg-gradient: linear-gradient(135deg, rgba(99,102,241,0.08) 0%, rgba(139,92,246,0.08) 100%);
-            --text-primary: #18181b;
-            --text-secondary: #52525b;
-            --text-tertiary: #a1a1aa;
-            --border-color: #e4e4e7;
+            --bg-primary: #0f0f23;
+            --bg-secondary: rgba(255, 255, 255, 0.03);
+            --bg-tertiary: rgba(255, 255, 255, 0.05);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --text-tertiary: rgba(255, 255, 255, 0.5);
+            --border-color: rgba(255, 255, 255, 0.1);
             --accent-primary: #6366f1;
             --accent-secondary: #8b5cf6;
-            --accent-gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a78bfa 100%);
+            --accent-tertiary: #ec4899;
             --success: #22c55e;
             --warning: #f59e0b;
             --error: #ef4444;
-            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-            --shadow-glow: 0 0 30px rgba(99, 102, 241, 0.25);
-            --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
-            --transition-normal: 300ms cubic-bezier(0.4, 0, 0.2, 1);
-            --transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
-            --radius-sm: 8px;
-            --radius-md: 12px;
-            --radius-lg: 20px;
-            --radius-full: 9999px;
+            --info: #3b82f6;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -4px rgba(0, 0, 0, 0.5);
+            --shadow-glow: 0 0 30px rgba(99, 102, 241, 0.4);
+            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --gradient-4: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
         }
 
-        [data-theme="dark"] {
-            --bg-primary: #09090b;
-            --bg-secondary: #18181b;
-            --bg-tertiary: #27272a;
-            --bg-gradient: linear-gradient(135deg, rgba(99,102,241,0.15) 0%, rgba(139,92,246,0.12) 100%);
-            --text-primary: #fafafa;
-            --text-secondary: #a1a1aa;
-            --text-tertiary: #71717a;
-            --border-color: #3f3f46;
-            --accent-primary: #818cf8;
-            --accent-secondary: #a78bfa;
-            --accent-gradient: linear-gradient(135deg, #818cf8 0%, #a78bfa 50%, #c4b5fd 100%);
-            --success: #4ade80;
-            --warning: #fbbf24;
-            --error: #f87171;
-            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
-            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.4);
-            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.5), 0 4px 6px -4px rgb(0 0 0 / 0.5);
-            --shadow-glow: 0 0 40px rgba(129, 140, 248, 0.3);
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        /* ===== RESET & BASE ===== */
-        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; scroll-padding-top: 100px; }
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background-color: var(--bg-primary);
+            background: var(--bg-primary);
             color: var(--text-primary);
             line-height: 1.6;
             min-height: 100vh;
-            transition: background-color var(--transition-normal), color var(--transition-normal);
-            position: relative;
             overflow-x: hidden;
+            position: relative;
         }
 
-        /* ===== ANIMATED MESH GRADIENT BACKGROUND ===== */
-        body::before {
-            content: '';
+        /* Animated Background */
+        .bg-animation {
             position: fixed;
-            inset: 0;
-            background: 
-                radial-gradient(ellipse at 15% 15%, rgba(99, 102, 241, 0.12) 0%, transparent 55%),
-                radial-gradient(ellipse at 85% 25%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
-                radial-gradient(ellipse at 50% 85%, rgba(59, 130, 246, 0.08) 0%, transparent 60%),
-                var(--bg-gradient);
-            z-index: -2;
-            animation: gradientShift 22s ease-in-out infinite alternate;
-            pointer-events: none;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
         }
 
-        @keyframes gradientShift {
+        .bg-gradient {
+            position: absolute;
+            width: 150%;
+            height: 150%;
+            top: -25%;
+            left: -25%;
+            background: 
+                radial-gradient(ellipse at 20% 20%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(236, 72, 153, 0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at 30% 70%, rgba(34, 197, 94, 0.08) 0%, transparent 50%);
+            animation: bgFloat 20s ease-in-out infinite;
+        }
+
+        @keyframes bgFloat {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(30px, -30px) rotate(2deg); }
+            66% { transform: translate(-20px, 20px) rotate(-2deg); }
+        }
+
+        .floating-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            animation: orbFloat 15s ease-in-out infinite;
+        }
+
+        .orb-1 {
+            width: 400px;
+            height: 400px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .orb-2 {
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(135deg, #ec4899, #f43f5e);
+            top: 60%;
+            right: 10%;
+            animation-delay: -5s;
+        }
+
+        .orb-3 {
+            width: 350px;
+            height: 350px;
+            background: linear-gradient(135deg, #22c55e, #10b981);
+            bottom: 10%;
+            left: 30%;
+            animation-delay: -10s;
+        }
+
+        @keyframes orbFloat {
             0%, 100% { transform: translate(0, 0) scale(1); }
-            25% { transform: translate(2%, -1.5%) scale(1.03); }
-            50% { transform: translate(-1.5%, 2.5%) scale(0.97); }
-            75% { transform: translate(2.5%, 1%) scale(1.02); }
+            50% { transform: translate(50px, -50px) scale(1.1); }
         }
 
-        [data-theme="dark"] body::before {
-            background: 
-                radial-gradient(ellipse at 15% 15%, rgba(99, 102, 241, 0.25) 0%, transparent 55%),
-                radial-gradient(ellipse at 85% 25%, rgba(167, 139, 250, 0.2) 0%, transparent 50%),
-                radial-gradient(ellipse at 50% 85%, rgba(30, 58, 138, 0.3) 0%, transparent 60%),
-                var(--bg-gradient);
+        /* Noise Texture Overlay */
+        .noise-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.03;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
         }
 
-        /* ===== TYPOGRAPHY ===== */
         h1, h2, h3, h4, h5, h6 {
             font-family: 'Plus Jakarta Sans', sans-serif;
             font-weight: 700;
             line-height: 1.2;
-            letter-spacing: -0.02em;
         }
 
-        a { color: inherit; text-decoration: none; }
-        img, svg { display: block; max-width: 100%; }
-        button { font: inherit; cursor: pointer; border: none; background: none; }
-
-        /* ===== ACCESSIBILITY ===== */
-        .skip-link {
-            position: absolute;
-            top: -50px;
-            left: 1rem;
-            background: var(--accent-primary);
-            color: white;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0 0 var(--radius-md) var(--radius-md);
-            z-index: 10000;
-            transition: top var(--transition-fast);
-            font-weight: 600;
-        }
-        .skip-link:focus { top: 0; outline: 2px solid white; outline-offset: 2px; }
-        
-        #statusAnnouncement {
-            position: absolute;
-            left: -9999px;
-            width: 1px;
-            height: 1px;
-            overflow: hidden;
-        }
-
-        /* Focus styles */
-        :focus-visible {
-            outline: 2px solid var(--accent-primary);
-            outline-offset: 2px;
-        }
-        .theme-toggle:focus-visible,
-        .filter-btn:focus-visible,
-        .search-box input:focus-visible {
-            outline-color: var(--accent-secondary);
-            box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.2);
-        }
-
-        /* Reduced motion */
-        @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-                scroll-behavior: auto !important;
-            }
-            body::before { animation: none; }
-        }
-
-        /* ===== HEADER ===== */
+        /* Glassmorphism Header */
         .header {
             position: fixed;
-            top: 0; left: 0; right: 0;
+            top: 0;
+            left: 0;
+            right: 0;
             z-index: 1000;
-            background: rgba(var(--bg-secondary), 0.85);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
+            background: rgba(15, 15, 35, 0.7);
+            backdrop-filter: blur(20px) saturate(180%);
             border-bottom: 1px solid var(--border-color);
-            transition: all var(--transition-normal);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
+
         .header.scrolled {
-            box-shadow: var(--shadow-md);
-            background: rgba(var(--bg-secondary), 0.95);
+            background: rgba(15, 15, 35, 0.9);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
         }
 
         .header-content {
-            max-width: 1280px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 1rem 2rem;
             display: flex;
@@ -198,216 +184,340 @@
             font-weight: 800;
             font-size: 1.5rem;
             color: var(--text-primary);
-            transition: transform var(--transition-fast);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
         }
-        .logo:hover { transform: scale(1.03); }
+
+        .logo:hover {
+            transform: scale(1.02);
+            text-shadow: 0 0 20px rgba(99, 102, 241, 0.5);
+        }
 
         .logo-icon {
-            width: 42px; height: 42px;
-            background: var(--accent-gradient);
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
+            background-size: 200% 200%;
             border-radius: 14px;
-            display: flex; align-items: center; justify-content: center;
-            color: white; font-size: 1.35rem;
-            box-shadow: var(--shadow-glow);
-            transition: transform var(--transition-fast);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.25rem;
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+            animation: gradientShift 3s ease infinite;
+            position: relative;
+            overflow: hidden;
         }
-        .logo:hover .logo-icon { transform: rotate(8deg) scale(1.05); }
 
-        .header-actions { display: flex; gap: 0.75rem; align-items: center; }
+        .logo-icon::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
 
         .theme-toggle {
-            width: 46px; height: 46px;
+            width: 48px;
+            height: 48px;
             border-radius: 14px;
             border: 1px solid var(--border-color);
             background: var(--bg-secondary);
             color: var(--text-secondary);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.3rem;
-            transition: all var(--transition-normal);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
         }
-        .theme-toggle::before {
-            content: '';
-            position: absolute;
-            inset: -3px;
-            background: var(--accent-gradient);
-            border-radius: inherit;
-            opacity: 0;
-            transition: opacity var(--transition-fast);
-            z-index: -1;
-            filter: blur(10px);
-        }
+
         .theme-toggle:hover {
             background: var(--bg-tertiary);
             color: var(--text-primary);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+            border-color: var(--accent-primary);
         }
-        .theme-toggle:hover::before { opacity: 0.35; }
-        .theme-toggle:active { transform: scale(0.96); }
 
-        /* ===== MAIN CONTENT ===== */
+        .theme-toggle:active {
+            transform: scale(0.95);
+        }
+
         .main-content {
-            max-width: 1280px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 8rem 2rem 4rem;
+            position: relative;
+            z-index: 1;
         }
 
-        /* ===== HERO SECTION ===== */
+        /* Hero Section with Enhanced Animations */
         .hero {
             text-align: center;
             margin-bottom: 4rem;
-            animation: fadeInUp 0.8s ease-out;
+            animation: fadeInUp 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            position: relative;
         }
 
         @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(32px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(40px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
 
         .status-badge {
             display: inline-flex;
             align-items: center;
-            gap: 0.6rem;
-            padding: 0.6rem 1.25rem;
-            background: rgba(34, 197, 94, 0.12);
-            border: 1px solid rgba(34, 197, 94, 0.25);
-            border-radius: var(--radius-full);
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: 100px;
             color: var(--success);
-            font-size: 0.9rem;
+            font-size: 0.875rem;
             font-weight: 600;
-            margin-bottom: 1.75rem;
-            animation: pulse 2.5s ease-in-out infinite;
-            transition: all var(--transition-fast);
+            margin-bottom: 1.5rem;
+            animation: pulse 2s infinite, glowPulse 2s infinite alternate;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
         }
+
+        .status-badge.warning {
+            background: rgba(245, 158, 11, 0.1);
+            border-color: rgba(245, 158, 11, 0.3);
+            color: var(--warning);
+            animation: pulse 2s infinite, glowPulseWarning 2s infinite alternate;
+        }
+
         .status-badge.error {
-            background: rgba(239, 68, 68, 0.12);
-            border-color: rgba(239, 68, 68, 0.25);
+            background: rgba(239, 68, 68, 0.1);
+            border-color: rgba(239, 68, 68, 0.3);
             color: var(--error);
-            animation: pulseError 2.5s ease-in-out infinite;
+            animation: pulse 2s infinite, glowPulseError 2s infinite alternate;
         }
 
         @keyframes pulse {
-            0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.3); }
-            50% { opacity: 0.85; box-shadow: 0 0 0 8px rgba(34, 197, 94, 0); }
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.85; transform: scale(1.02); }
         }
-        @keyframes pulseError {
-            0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.3); }
-            50% { opacity: 0.85; box-shadow: 0 0 0 8px rgba(239, 68, 68, 0); }
+
+        @keyframes glowPulse {
+            from { box-shadow: 0 0 10px rgba(34, 197, 94, 0.3); }
+            to { box-shadow: 0 0 25px rgba(34, 197, 94, 0.6); }
+        }
+
+        @keyframes glowPulseWarning {
+            from { box-shadow: 0 0 10px rgba(245, 158, 11, 0.3); }
+            to { box-shadow: 0 0 25px rgba(245, 158, 11, 0.6); }
+        }
+
+        @keyframes glowPulseError {
+            from { box-shadow: 0 0 10px rgba(239, 68, 68, 0.3); }
+            to { box-shadow: 0 0 25px rgba(239, 68, 68, 0.6); }
         }
 
         .status-dot {
-            width: 9px; height: 9px;
-            background: var(--success);
+            width: 10px;
+            height: 10px;
+            background: currentColor;
             border-radius: 50%;
-            box-shadow: 0 0 12px var(--success);
-            animation: blink 2s ease-in-out infinite;
+            box-shadow: 0 0 15px currentColor;
+            animation: blink 1.5s infinite;
+            position: relative;
         }
-        .status-badge.error .status-dot {
-            background: var(--error);
-            box-shadow: 0 0 12px var(--error);
-            animation: blinkError 2s ease-in-out infinite;
+
+        .status-dot::after {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            border: 2px solid currentColor;
+            opacity: 0;
+            animation: ripple 1.5s infinite;
         }
 
         @keyframes blink {
             0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.3); opacity: 0.7; }
+            50% { transform: scale(1.2); opacity: 0.8; }
         }
-        @keyframes blinkError {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.3); opacity: 0.7; }
+
+        @keyframes ripple {
+            0% { transform: scale(1); opacity: 0.5; }
+            100% { transform: scale(2); opacity: 0; }
         }
 
         .hero h1 {
-            font-size: clamp(2.75rem, 6vw, 4.5rem);
-            margin-bottom: 1.25rem;
-            background: var(--accent-gradient);
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 50%, #c084fc 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            animation: gradientFlow 8s ease infinite;
-            background-size: 300% 300%;
+            animation: textShine 3s ease-in-out infinite;
+            background-size: 200% auto;
+            letter-spacing: -0.02em;
         }
 
-        @keyframes gradientFlow {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
+        @keyframes textShine {
+            0%, 100% { background-position: 0% center; }
+            50% { background-position: 100% center; }
         }
 
         .hero p {
             font-size: 1.25rem;
             color: var(--text-secondary);
-            max-width: 640px;
+            max-width: 600px;
             margin: 0 auto;
-            line-height: 1.7;
+            animation: fadeInUp 1s 0.2s cubic-bezier(0.4, 0, 0.2, 1) backwards;
         }
 
-        /* ===== STATS GRID ===== */
+        /* Stats Grid with Glass Cards */
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 1.25rem;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.5rem;
             margin-bottom: 4rem;
         }
 
         .stat-card {
             background: var(--bg-secondary);
             border: 1px solid var(--border-color);
-            border-radius: var(--radius-lg);
-            padding: 1.5rem;
-            transition: all var(--transition-normal);
-            animation: fadeInUp 0.7s ease-out backwards;
+            border-radius: 24px;
+            padding: 1.75rem;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: fadeInUp 0.8s ease-out backwards;
+            backdrop-filter: blur(10px);
             position: relative;
             overflow: hidden;
         }
-        .stat-card::after {
+
+        .stat-card::before {
             content: '';
             position: absolute;
-            inset: -1px;
-            background: var(--accent-gradient);
-            border-radius: inherit;
-            padding: 1px;
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            opacity: 0;
-            transition: opacity var(--transition-fast);
-            pointer-events: none;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-1);
+            transform: scaleX(0);
+            transition: transform 0.5s ease;
         }
-        .stat-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-glow), var(--shadow-lg);
-            border-color: transparent;
-        }
-        .stat-card:hover::after { opacity: 1; }
 
         .stat-card:nth-child(1) { animation-delay: 0.1s; }
+        .stat-card:nth-child(1)::before { background: var(--gradient-1); }
         .stat-card:nth-child(2) { animation-delay: 0.2s; }
+        .stat-card:nth-child(2)::before { background: var(--gradient-2); }
         .stat-card:nth-child(3) { animation-delay: 0.3s; }
+        .stat-card:nth-child(3)::before { background: var(--gradient-3); }
         .stat-card:nth-child(4) { animation-delay: 0.4s; }
+        .stat-card:nth-child(4)::before { background: var(--gradient-4); }
+
+        .stat-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(99, 102, 241, 0.2);
+            border-color: rgba(99, 102, 241, 0.3);
+        }
+
+        .stat-card:hover::before {
+            transform: scaleX(1);
+        }
 
         .stat-header {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: 1rem;
+            margin-bottom: 1.25rem;
         }
 
         .stat-icon {
-            width: 50px; height: 50px;
-            border-radius: 14px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.6rem;
-            transition: transform var(--transition-fast);
+            width: 52px;
+            height: 52px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
         }
-        .stat-card:hover .stat-icon { transform: scale(1.1) rotate(3deg); }
 
-        .stat-icon.success { background: rgba(34, 197, 94, 0.12); color: var(--success); }
-        .stat-icon.primary { background: rgba(99, 102, 241, 0.12); color: var(--accent-primary); }
-        .stat-icon.warning { background: rgba(245, 158, 11, 0.12); color: var(--warning); }
-        .stat-icon.info { background: rgba(59, 130, 246, 0.12); color: #3b82f6; }
+        .stat-icon::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, transparent, rgba(255,255,255,0.2), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .stat-card:hover .stat-icon::after {
+            transform: translateX(100%);
+        }
+
+        .stat-icon.success {
+            background: rgba(34, 197, 94, 0.15);
+            color: var(--success);
+            box-shadow: 0 0 20px rgba(34, 197, 94, 0.2);
+        }
+
+        .stat-icon.primary {
+            background: rgba(99, 102, 241, 0.15);
+            color: var(--accent-primary);
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.2);
+        }
+
+        .stat-icon.warning {
+            background: rgba(245, 158, 11, 0.15);
+            color: var(--warning);
+            box-shadow: 0 0 20px rgba(245, 158, 11, 0.2);
+        }
+
+        .stat-icon.info {
+            background: rgba(59, 130, 246, 0.15);
+            color: var(--info);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
+        }
 
         .stat-value {
             font-family: 'Plus Jakarta Sans', sans-serif;
@@ -415,200 +525,84 @@
             font-weight: 800;
             color: var(--text-primary);
             margin-bottom: 0.25rem;
-            line-height: 1;
+            background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover .stat-value {
+            transform: scale(1.05);
         }
 
         .stat-label {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            font-weight: 500;
-        }
-
-        /* ===== SERVICES TOOLBAR ===== */
-        .services-toolbar {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
-            align-items: center;
-            animation: fadeInUp 0.6s ease-out 0.5s backwards;
-        }
-
-        .search-box {
-            flex: 1;
-            min-width: 240px;
-            position: relative;
-            max-width: 420px;
-        }
-
-        .search-box i {
-            position: absolute;
-            left: 1.1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-tertiary);
-            pointer-events: none;
-            font-size: 1.1rem;
-            transition: color var(--transition-fast);
-        }
-
-        .search-box input {
-            width: 100%;
-            padding: 0.85rem 1.1rem 0.85rem 2.9rem;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-md);
-            color: var(--text-primary);
-            font-size: 0.95rem;
-            transition: all var(--transition-fast);
-        }
-        .search-box input::placeholder { color: var(--text-tertiary); }
-        .search-box input:focus {
-            outline: none;
-            border-color: var(--accent-primary);
-            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
-        }
-        .search-box input:focus + i,
-        .search-box input:valid + i { color: var(--accent-primary); }
-
-        .search-box .clear-btn {
-            position: absolute;
-            right: 0.5rem;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 28px; height: 28px;
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            color: var(--text-tertiary);
-            transition: all var(--transition-fast);
-            opacity: 0;
-            visibility: hidden;
-        }
-        .search-box:has(input:valid) .clear-btn {
-            opacity: 1;
-            visibility: visible;
-        }
-        .clear-btn:hover {
-            background: var(--bg-tertiary);
-            color: var(--text-primary);
-        }
-
-        .filter-group {
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-        }
-
-        .filter-btn {
-            padding: 0.55rem 1.1rem;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-full);
-            color: var(--text-secondary);
             font-size: 0.875rem;
+            color: var(--text-secondary);
             font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: all var(--transition-fast);
-            position: relative;
-            overflow: hidden;
         }
-        .filter-btn::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: var(--accent-gradient);
-            opacity: 0;
-            transition: opacity var(--transition-fast);
-            z-index: -1;
-        }
-        .filter-btn:hover {
-            border-color: var(--accent-primary);
-            color: var(--text-primary);
-            transform: translateY(-1px);
-        }
-        .filter-btn.active,
-        .filter-btn.active:hover {
-            background: var(--accent-primary);
-            border-color: var(--accent-primary);
-            color: white;
-        }
-        .filter-btn.active::before { opacity: 1; }
 
-        .filter-btn .status-dot {
-            width: 7px; height: 7px;
-            border-radius: 50%;
-            flex-shrink: 0;
-        }
-        .filter-btn .status-dot.success { background: var(--success); }
-        .filter-btn .status-dot.warning { background: var(--warning); }
-        .filter-btn .status-dot.error { background: var(--error); }
-
-        /* ===== SERVICES CONTAINER ===== */
         .section-title {
-            font-size: 1.6rem;
-            margin-bottom: 1.5rem;
+            font-size: 1.75rem;
+            margin-bottom: 2rem;
             display: flex;
             align-items: center;
             gap: 0.75rem;
-            animation: fadeInUp 0.6s ease-out 0.6s backwards;
+            animation: fadeInUp 0.8s 0.5s ease-out backwards;
         }
 
+        .section-title i {
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Services Container */
         .services-container {
             display: flex;
             flex-direction: column;
-            gap: 1.25rem;
+            gap: 1.5rem;
             margin-bottom: 4rem;
         }
 
         .service-card {
             background: var(--bg-secondary);
             border: 1px solid var(--border-color);
-            border-radius: var(--radius-lg);
-            padding: 1.75rem;
-            transition: all var(--transition-normal);
-            animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) backwards;
+            border-radius: 24px;
+            padding: 2rem;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: fadeInUp 0.8s ease-out backwards;
+            backdrop-filter: blur(10px);
             position: relative;
             overflow: hidden;
         }
-        .service-card::after {
+
+        .service-card::before {
             content: '';
             position: absolute;
-            inset: -1px;
-            background: var(--accent-gradient);
-            border-radius: inherit;
-            padding: 1px;
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            opacity: 0;
-            transition: opacity var(--transition-fast);
-            pointer-events: none;
-            z-index: 1;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.03), transparent);
+            transition: left 0.7s ease;
         }
-        .service-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-glow), var(--shadow-lg);
-            border-color: transparent;
-        }
-        .service-card:hover::after { opacity: 1; }
-        .service-card.loading { opacity: 0.7; }
 
-        /* Staggered animation delays */
-        .service-card { --i: 0; }
-        .service-card:nth-child(1) { animation-delay: calc(0.1s + var(--i) * 0.04s); }
-        .service-card:nth-child(2) { animation-delay: calc(0.14s + var(--i) * 0.04s); }
-        .service-card:nth-child(3) { animation-delay: calc(0.18s + var(--i) * 0.04s); }
-        .service-card:nth-child(4) { animation-delay: calc(0.22s + var(--i) * 0.04s); }
-        .service-card:nth-child(5) { animation-delay: calc(0.26s + var(--i) * 0.04s); }
-        .service-card:nth-child(n+6) { animation-delay: calc(0.3s + var(--i) * 0.03s); }
+        .service-card:hover::before {
+            left: 100%;
+        }
+
+        .service-card:hover {
+            transform: translateY(-4px) scale(1.01);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(99, 102, 241, 0.2);
+            border-color: rgba(99, 102, 241, 0.3);
+        }
 
         .service-header {
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
+            align-items: center;
             margin-bottom: 1.5rem;
             flex-wrap: wrap;
             gap: 1rem;
@@ -617,93 +611,125 @@
         .service-info {
             display: flex;
             align-items: center;
-            gap: 1.1rem;
-            min-width: 0;
+            gap: 1.25rem;
         }
 
         .service-icon {
-            width: 58px; height: 58px;
-            background: var(--bg-tertiary);
-            border-radius: 16px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.85rem;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(139, 92, 246, 0.2));
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
             color: var(--accent-primary);
-            transition: all var(--transition-normal);
-            flex-shrink: 0;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
         }
+
         .service-icon::after {
             content: '';
             position: absolute;
             inset: 0;
             background: var(--accent-gradient);
             opacity: 0;
-            transition: opacity var(--transition-fast);
+            transition: opacity 0.3s ease;
         }
+
         .service-card:hover .service-icon {
-            transform: scale(1.08) rotate(4deg);
-            box-shadow: var(--shadow-glow);
+            transform: scale(1.1) rotate(8deg);
+            box-shadow: 0 0 30px rgba(99, 102, 241, 0.4);
         }
-        .service-card:hover .service-icon::after { opacity: 0.15; }
-        .service-card:hover .service-icon { color: white; }
+
+        .service-card:hover .service-icon::after {
+            opacity: 1;
+        }
+
+        .service-card:hover .service-icon i {
+            color: white;
+            position: relative;
+            z-index: 1;
+        }
 
         .service-title {
-            font-size: 1.3rem;
-            margin-bottom: 0.3rem;
+            font-size: 1.35rem;
+            margin-bottom: 0.35rem;
             font-weight: 700;
         }
 
         .service-url {
-            font-size: 0.9rem;
+            font-size: 0.875rem;
             color: var(--text-tertiary);
+            text-decoration: none;
             display: flex;
             align-items: center;
-            gap: 0.3rem;
-            transition: color var(--transition-fast);
-            max-width: 100%;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
+            gap: 0.35rem;
+            transition: all 0.3s ease;
+            font-weight: 500;
         }
-        .service-url:hover { color: var(--accent-primary); }
-        .service-url i { font-size: 0.9rem; transition: transform var(--transition-fast); }
-        .service-url:hover i { transform: translate(2px, -2px); }
+
+        .service-url:hover {
+            color: var(--accent-primary);
+            gap: 0.5rem;
+        }
 
         .service-status {
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            padding: 0.5rem 1.1rem;
-            border-radius: var(--radius-full);
+            padding: 0.6rem 1.25rem;
+            border-radius: 100px;
             font-size: 0.875rem;
             font-weight: 600;
-            flex-shrink: 0;
-            transition: all var(--transition-fast);
-        }
-        .service-status i { font-size: 1.1rem; }
-        .service-status.operational {
-            background: rgba(34, 197, 94, 0.12);
-            color: var(--success);
-        }
-        .service-status.degraded {
-            background: rgba(245, 158, 11, 0.12);
-            color: var(--warning);
-        }
-        .service-status.down {
-            background: rgba(239, 68, 68, 0.12);
-            color: var(--error);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
         }
 
-        .uptime-container { margin-bottom: 0.5rem; }
+        .service-status.operational {
+            background: rgba(34, 197, 94, 0.15);
+            color: var(--success);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            box-shadow: 0 0 15px rgba(34, 197, 94, 0.2);
+        }
+
+        .service-status.degraded {
+            background: rgba(245, 158, 11, 0.15);
+            color: var(--warning);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.2);
+        }
+
+        .service-status.down {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--error);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.2);
+            animation: errorPulse 2s infinite;
+        }
+
+        @keyframes errorPulse {
+            0%, 100% { box-shadow: 0 0 15px rgba(239, 68, 68, 0.2); }
+            50% { box-shadow: 0 0 25px rgba(239, 68, 68, 0.4); }
+        }
+
+        .uptime-container {
+            margin-bottom: 1rem;
+        }
 
         .uptime-header {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 0.85rem;
-            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            font-size: 0.875rem;
         }
-        .uptime-label { color: var(--text-secondary); font-weight: 500; }
+
+        .uptime-label {
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
         .uptime-value {
             font-weight: 700;
             color: var(--text-primary);
@@ -712,104 +738,135 @@
 
         .uptime-bar {
             display: flex;
-            gap: 2px;
-            height: 42px;
-            border-radius: 10px;
+            gap: 4px;
+            height: 44px;
+            border-radius: 12px;
             overflow: hidden;
-            background: var(--bg-tertiary);
-            padding: 2px;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 4px;
         }
 
         .uptime-segment {
             flex: 1;
             position: relative;
             cursor: pointer;
-            transition: all var(--transition-fast);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             min-width: 4px;
-            border-radius: 4px;
-            transform-origin: bottom;
+            border-radius: 6px;
         }
-        .uptime-segment:hover {
-            transform: scaleY(1.15);
-            z-index: 10;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
-        .uptime-segment.success { background: var(--success); }
-        .uptime-segment.warning { background: var(--warning); }
-        .uptime-segment.error { background: var(--error); }
-        .uptime-segment.empty { background: var(--border-color); }
 
-        /* ===== TOOLTIP ===== */
+        .uptime-segment:hover {
+            transform: scaleY(1.2) scaleX(1.1);
+            z-index: 10;
+            box-shadow: 0 0 20px currentColor;
+        }
+
+        .uptime-segment.success { 
+            background: linear-gradient(180deg, #4ade80 0%, #22c55e 100%);
+            box-shadow: 0 2px 8px rgba(34, 197, 94, 0.3);
+        }
+        .uptime-segment.warning { 
+            background: linear-gradient(180deg, #fbbf24 0%, #f59e0b 100%);
+            box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
+        }
+        .uptime-segment.error { 
+            background: linear-gradient(180deg, #f87171 0%, #ef4444 100%);
+            box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+        }
+        .uptime-segment.empty { 
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Enhanced Tooltip */
         .tooltip {
             position: fixed;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: 14px;
-            padding: 1rem 1.25rem;
+            background: rgba(15, 15, 35, 0.95);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 16px;
+            padding: 1.25rem;
             min-width: 220px;
             max-width: 300px;
-            box-shadow: var(--shadow-lg), var(--shadow-glow);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(99, 102, 241, 0.2);
             opacity: 0;
             visibility: hidden;
-            transition: all 0.18s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             z-index: 10000;
             pointer-events: none;
-            transform: translateY(8px);
+            backdrop-filter: blur(20px);
+            transform: translateY(10px) scale(0.95);
         }
+
         .tooltip.visible {
             opacity: 1;
             visibility: visible;
-            transform: translateY(0);
+            transform: translateY(0) scale(1);
         }
 
         .tooltip-date {
             font-size: 0.75rem;
             color: var(--text-tertiary);
             text-transform: uppercase;
-            letter-spacing: 0.06em;
-            margin-bottom: 0.35rem;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
             font-weight: 600;
         }
 
         .tooltip-status {
             font-weight: 700;
-            margin-bottom: 0.6rem;
-            padding: 0.3rem 0.9rem;
-            border-radius: var(--radius-full);
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
-            font-size: 0.9rem;
+            margin-bottom: 0.75rem;
+            padding: 0.4rem 1rem;
+            border-radius: 100px;
+            display: inline-block;
+            font-size: 0.875rem;
         }
+
         .tooltip-status.success {
-            background: rgba(34, 197, 94, 0.12);
+            background: rgba(34, 197, 94, 0.2);
             color: var(--success);
+            border: 1px solid rgba(34, 197, 94, 0.3);
         }
+
         .tooltip-status.warning {
-            background: rgba(245, 158, 11, 0.12);
+            background: rgba(245, 158, 11, 0.2);
             color: var(--warning);
+            border: 1px solid rgba(245, 158, 11, 0.3);
         }
+
         .tooltip-status.error {
-            background: rgba(239, 68, 68, 0.12);
+            background: rgba(239, 68, 68, 0.2);
             color: var(--error);
+            border: 1px solid rgba(239, 68, 68, 0.3);
         }
 
         .tooltip-uptime {
-            font-size: 0.9rem;
+            font-size: 0.875rem;
             color: var(--text-secondary);
+            margin-top: 0.75rem;
             line-height: 1.5;
         }
 
-        /* ===== FOOTER ===== */
+        /* Footer */
         .footer {
             border-top: 1px solid var(--border-color);
             margin-top: 4rem;
-            padding: 3rem 0 2rem;
-            background: var(--bg-secondary);
+            padding: 3rem 0;
+            position: relative;
+            background: linear-gradient(180deg, transparent 0%, rgba(99, 102, 241, 0.03) 100%);
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-primary), transparent);
         }
 
         .footer-content {
-            max-width: 1280px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 0 2rem;
             display: flex;
@@ -826,31 +883,53 @@
             font-weight: 700;
             font-size: 1.25rem;
             color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        .footer-brand:hover {
+            transform: scale(1.05);
+            text-shadow: 0 0 20px rgba(99, 102, 241, 0.5);
         }
 
         .footer-links {
             display: flex;
-            gap: 1.75rem;
+            gap: 2.5rem;
             flex-wrap: wrap;
             justify-content: center;
         }
 
         .footer-links a {
             color: var(--text-secondary);
+            text-decoration: none;
             font-size: 0.9rem;
-            transition: all var(--transition-fast);
+            transition: all 0.3s ease;
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            padding: 0.4rem 0.6rem;
-            border-radius: var(--radius-md);
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
         }
+
+        .footer-links a::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--accent-gradient);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+
         .footer-links a:hover {
-            color: var(--accent-primary);
-            background: var(--bg-tertiary);
-            transform: translateY(-1px);
+            color: white;
+            transform: translateY(-2px);
         }
-        .footer-links i { font-size: 1.1rem; }
+
+        .footer-links a:hover::before {
+            opacity: 1;
+        }
 
         .footer-bottom {
             display: flex;
@@ -858,57 +937,36 @@
             align-items: center;
             gap: 0.75rem;
             color: var(--text-tertiary);
-            font-size: 0.9rem;
-            text-align: center;
+            font-size: 0.875rem;
         }
 
         .render-time {
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            font-size: 0.8rem;
-            padding: 0.45rem 1rem;
+            font-size: 0.75rem;
+            padding: 0.6rem 1.25rem;
             background: var(--bg-tertiary);
-            border-radius: var(--radius-full);
-            font-weight: 500;
+            border-radius: 100px;
+            border: 1px solid var(--border-color);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            transition: all 0.3s ease;
         }
 
-        /* ===== SKELETON LOADING ===== */
+        .render-time:hover {
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 15px rgba(99, 102, 241, 0.2);
+        }
+
+        /* Loading Skeleton */
         .loading-skeleton {
-            background: linear-gradient(90deg, var(--bg-tertiary) 25%, var(--border-color) 50%, var(--bg-tertiary) 75%);
+            background: linear-gradient(90deg, var(--bg-tertiary) 25%, rgba(99, 102, 241, 0.1) 50%, var(--bg-tertiary) 75%);
             background-size: 200% 100%;
-            animation: shimmer 1.4s infinite;
-            border-radius: var(--radius-lg);
-            height: 180px;
-            margin-bottom: 1.25rem;
-        }
-
-        .skeleton-text {
-            height: 1.4rem;
-            background: var(--bg-tertiary);
-            border-radius: 6px;
-            animation: shimmer 1.4s infinite;
-            background-size: 200% 100%;
-        }
-        .skeleton-text.small { height: 1rem; width: 70%; }
-        .skeleton-text.large { height: 2rem; width: 40%; }
-
-        .skeleton-bar {
-            height: 42px;
-            background: var(--bg-tertiary);
-            border-radius: 10px;
-            animation: shimmer 1.4s infinite;
-            background-size: 200% 100%;
-        }
-
-        .skeleton-badge {
-            padding: 0.5rem 1rem;
-            border-radius: var(--radius-full);
-            background: var(--bg-tertiary);
-            animation: shimmer 1.4s infinite;
-            background-size: 200% 100%;
-            width: 120px;
-            height: 32px;
+            animation: shimmer 1.5s infinite;
+            border-radius: 24px;
+            height: 200px;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border-color);
         }
 
         @keyframes shimmer {
@@ -916,240 +974,155 @@
             100% { background-position: -200% 0; }
         }
 
-        /* ===== EMPTY STATE ===== */
-        .empty-state {
-            text-align: center;
-            padding: 4rem 2rem;
-            color: var(--text-secondary);
-            animation: fadeInUp 0.6s ease-out;
-        }
-        .empty-state i {
-            font-size: 4rem;
-            margin-bottom: 1.5rem;
-            opacity: 0.5;
-            display: block;
-        }
-        .empty-state p {
-            max-width: 480px;
-            margin: 0 auto 1.5rem;
-            line-height: 1.7;
-        }
-        .empty-state .retry-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.75rem 1.5rem;
-            background: var(--accent-primary);
-            color: white;
-            border-radius: var(--radius-md);
-            font-weight: 600;
-            transition: all var(--transition-fast);
-        }
-        .empty-state .retry-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
         }
 
-        /* ===== OFFLINE BANNER ===== */
-        .offline-banner {
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            background: linear-gradient(135deg, var(--error), #dc2626);
-            color: white;
-            padding: 0.75rem 2rem;
-            text-align: center;
-            font-weight: 500;
-            z-index: 9999;
-            display: none;
-            animation: slideDown 0.3s ease-out;
-        }
-        .offline-banner.visible { display: block; }
-        @keyframes slideDown {
-            from { transform: translateY(-100%); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
         }
 
-        /* ===== RESPONSIVE ===== */
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, var(--accent-primary), var(--accent-secondary));
+            border-radius: 5px;
+            border: 2px solid var(--bg-primary);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, var(--accent-secondary), var(--accent-tertiary));
+        }
+
+        /* Responsive */
         @media (max-width: 768px) {
-            .header-content { padding: 0.85rem 1.25rem; }
-            .main-content { padding: 7rem 1.25rem 2rem; }
-            
-            .hero h1 { font-size: clamp(2.25rem, 8vw, 3.5rem); }
-            .hero p { font-size: 1.1rem; }
-            
-            .services-toolbar {
-                flex-direction: column;
-                align-items: stretch;
+            .header-content {
+                padding: 1rem;
             }
-            .search-box { max-width: 100%; }
-            .filter-group { justify-content: center; }
-            
+
+            .main-content {
+                padding: 7rem 1rem 2rem;
+            }
+
             .service-header {
                 flex-direction: column;
                 align-items: flex-start;
             }
-            .service-status { width: 100%; justify-content: center; }
-            
-            .uptime-bar { height: 36px; }
-            .uptime-segment { min-width: 3px; }
-            
-            .stats-grid { grid-template-columns: repeat(2, 1fr); }
-            
-            .footer-links { gap: 1.25rem; }
-            .footer-links a { font-size: 0.85rem; }
+
+            .uptime-bar {
+                height: 36px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .uptime-segment {
+                min-width: 3px;
+            }
+
+            .floating-orb {
+                filter: blur(60px);
+                opacity: 0.3;
+            }
         }
 
-        @media (max-width: 480px) {
-            .stats-grid { grid-template-columns: 1fr; }
-            .stat-value { font-size: 2rem; }
-            .service-card { padding: 1.4rem; }
-            .service-icon { width: 50px; height: 50px; font-size: 1.6rem; }
-            .service-title { font-size: 1.15rem; }
-            .uptime-bar { height: 32px; }
+        /* Connection Lines Animation */
+        .connection-line {
+            position: absolute;
+            background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.3), transparent);
+            height: 1px;
+            width: 100%;
+            animation: linePulse 3s infinite;
         }
 
-        /* ===== SCROLLBAR ===== */
-        ::-webkit-scrollbar { width: 9px; height: 9px; }
-        ::-webkit-scrollbar-track { background: var(--bg-primary); }
-        ::-webkit-scrollbar-thumb {
-            background: var(--border-color);
-            border-radius: 6px;
-            border: 2px solid var(--bg-primary);
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--text-tertiary);
-        }
-
-        /* ===== PRINT STYLES ===== */
-        @media print {
-            .header, .footer, .services-toolbar, .theme-toggle { display: none; }
-            body { background: white; color: black; }
-            .service-card { break-inside: avoid; page-break-inside: avoid; }
+        @keyframes linePulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.8; }
         }
     </style>
-    <base target="_blank">
 </head>
 <body>
-    <!-- Accessibility Skip Link -->
-    <a href="#mainContent" class="skip-link">Skip to main content</a>
-    
-    <!-- Screen Reader Live Region -->
-    <div id="statusAnnouncement" aria-live="polite" aria-atomic="true"></div>
-    
-    <!-- Offline Banner -->
-    <div id="offlineBanner" class="offline-banner" role="alert">
-        <i class="ph ph-wifi-slash" style="margin-right: 0.5rem;"></i>
-        You're offline. Some features may be limited.
+    <!-- Animated Background -->
+    <div class="bg-animation">
+        <div class="bg-gradient"></div>
+        <div class="floating-orb orb-1"></div>
+        <div class="floating-orb orb-2"></div>
+        <div class="floating-orb orb-3"></div>
     </div>
+    <div class="noise-overlay"></div>
 
-    <!-- Header -->
-    <header class="header" role="banner">
+    <header class="header" id="header">
         <div class="header-content">
-            <a href="#" class="logo" aria-label="Status Page Home">
-                <div class="logo-icon" aria-hidden="true">
+            <a href="#" class="logo">
+                <div class="logo-icon">
                     <i class="ph ph-activity"></i>
                 </div>
-                <span>Status Page</span>
+                <span>Status</span>
             </a>
             <div class="header-actions">
-                <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode" title="Toggle theme (Ctrl+T)">
-                    <i class="ph ph-moon" id="themeIcon" aria-hidden="true"></i>
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle effects">
+                    <i class="ph ph-sparkle" id="themeIcon"></i>
                 </button>
             </div>
         </div>
     </header>
 
-    <!-- Main Content -->
-    <main class="main-content" id="mainContent" role="main">
-        <!-- Hero Section -->
-        <section class="hero" aria-labelledby="heroTitle">
-            <div class="status-badge" id="overallStatus" role="status" aria-live="polite">
-                <span class="status-dot" aria-hidden="true"></span>
-                <span id="statusText">Loading Status...</span>
+    <main class="main-content">
+        <section class="hero">
+            <div class="status-badge" id="overallStatus">
+                <span class="status-dot"></span>
+                Loading Status...
             </div>
-            <h1 id="heroTitle">System Status</h1>
+            <h1>System Status</h1>
             <p>Real-time monitoring of all services and infrastructure. Check uptime statistics and incident history.</p>
         </section>
 
-        <!-- Stats Grid -->
-        <section class="stats-grid" aria-label="System Statistics">
-            <article class="stat-card">
+        <section class="stats-grid" id="statsGrid">
+            <div class="stat-card">
                 <div class="stat-header">
-                    <div class="stat-icon success" aria-hidden="true">
+                    <div class="stat-icon success">
                         <i class="ph ph-check-circle"></i>
                     </div>
                 </div>
-                <div class="stat-value" id="avgUptime" aria-label="Average uptime percentage">--%</div>
+                <div class="stat-value" id="avgUptime">--%</div>
                 <div class="stat-label">Average Uptime</div>
-            </article>
-            <article class="stat-card">
+            </div>
+            <div class="stat-card">
                 <div class="stat-header">
-                    <div class="stat-icon primary" aria-hidden="true">
+                    <div class="stat-icon primary">
                         <i class="ph ph-globe"></i>
                     </div>
                 </div>
-                <div class="stat-value" id="activeServices" aria-label="Number of active services">--</div>
+                <div class="stat-value" id="activeServices">--</div>
                 <div class="stat-label">Active Services</div>
-            </article>
-            <article class="stat-card">
+            </div>
+            <div class="stat-card">
                 <div class="stat-header">
-                    <div class="stat-icon warning" aria-hidden="true">
+                    <div class="stat-icon warning">
                         <i class="ph ph-warning-circle"></i>
                     </div>
                 </div>
-                <div class="stat-value" id="activeIncidents" aria-label="Number of active incidents">0</div>
+                <div class="stat-value" id="activeIncidents">0</div>
                 <div class="stat-label">Active Incidents</div>
-            </article>
-            <article class="stat-card">
+            </div>
+            <div class="stat-card">
                 <div class="stat-header">
-                    <div class="stat-icon info" aria-hidden="true">
+                    <div class="stat-icon info">
                         <i class="ph ph-clock"></i>
                     </div>
                 </div>
-                <div class="stat-value" aria-label="Monitoring period">30d</div>
+                <div class="stat-value">30d</div>
                 <div class="stat-label">Monitoring Period</div>
-            </article>
+            </div>
         </section>
 
-        <!-- Services Toolbar -->
-        <div class="services-toolbar" role="search">
-            <div class="search-box">
-                <i class="ph ph-magnifying-glass" aria-hidden="true"></i>
-                <input 
-                    type="search" 
-                    id="serviceSearch" 
-                    placeholder="Search services... (Press / to focus)" 
-                    aria-label="Search services"
-                    autocomplete="off"
-                >
-                <button id="clearSearch" class="clear-btn" aria-label="Clear search">
-                    <i class="ph ph-x" aria-hidden="true"></i>
-                </button>
-            </div>
-            <div class="filter-group" role="group" aria-label="Filter services by status">
-                <button class="filter-btn active" data-filter="all" aria-pressed="true">
-                    All
-                </button>
-                <button class="filter-btn" data-filter="operational" aria-pressed="false">
-                    <span class="status-dot success" aria-hidden="true"></span>Operational
-                </button>
-                <button class="filter-btn" data-filter="degraded" aria-pressed="false">
-                    <span class="status-dot warning" aria-hidden="true"></span>Degraded
-                </button>
-                <button class="filter-btn" data-filter="down" aria-pressed="false">
-                    <span class="status-dot error" aria-hidden="true"></span>Down
-                </button>
-            </div>
-        </div>
-
-        <!-- Services Section -->
-        <section aria-labelledby="servicesTitle">
-            <h2 id="servicesTitle" class="section-title">
-                <i class="ph ph-server" aria-hidden="true"></i>
+        <section>
+            <h2 class="section-title">
+                <i class="ph ph-server"></i>
                 Services
             </h2>
-            <div class="services-container" id="servicesContainer" aria-live="polite">
-                <!-- Loading skeletons -->
+            <div class="services-container" id="servicesContainer">
                 <div class="loading-skeleton"></div>
                 <div class="loading-skeleton"></div>
                 <div class="loading-skeleton"></div>
@@ -1157,469 +1130,140 @@
         </section>
     </main>
 
-    <!-- Footer -->
-    <footer class="footer" role="contentinfo">
+    <footer class="footer">
         <div class="footer-content">
             <div class="footer-brand">
-                <div class="logo-icon" style="width: 34px; height: 34px; font-size: 1.1rem;" aria-hidden="true">
+                <div class="logo-icon" style="width: 36px; height: 36px; font-size: 1rem;">
                     <i class="ph ph-activity"></i>
                 </div>
                 <span>Status Page</span>
             </div>
-            <nav class="footer-links" aria-label="Footer navigation">
-                <a href="https://github.com/Shineii86" aria-label="GitHub profile">
-                    <i class="ph ph-github-logo" aria-hidden="true"></i>
+            <nav class="footer-links">
+                <a href="https://github.com/Shineii86" target="_blank" rel="noopener">
+                    <i class="ph ph-github-logo"></i>
                     GitHub
                 </a>
-                <a href="https://t.me/Shineii86" aria-label="Telegram contact">
-                    <i class="ph ph-telegram-logo" aria-hidden="true"></i>
+                <a href="https://t.me/Shineii86" target="_blank" rel="noopener">
+                    <i class="ph ph-telegram-logo"></i>
                     Contact
                 </a>
-                <a href="https://github.com/Shineii86/Status" aria-label="View source code">
-                    <i class="ph ph-code" aria-hidden="true"></i>
+                <a href="https://github.com/Shineii86/Status" target="_blank" rel="noopener">
+                    <i class="ph ph-code"></i>
                     Source
                 </a>
             </nav>
             <div class="footer-bottom">
-                <div class="render-time" aria-label="Page performance">
-                    <i class="ph ph-timer" aria-hidden="true"></i>
+                <div class="render-time">
+                    <i class="ph ph-timer"></i>
                     <span id="renderTime">Loading...</span>
                 </div>
-                <p>&copy; <time datetime="2026">2026</time> Shinei Nouzen. All Rights Reserved.</p>
+                <p>&copy; 2026 Shinei Nouzen. All Rights Reserved.</p>
             </div>
         </div>
     </footer>
 
-    <!-- Tooltip -->
-    <div id="globalTooltip" class="tooltip" role="tooltip" aria-hidden="true">
+    <div id="globalTooltip" class="tooltip">
         <div class="tooltip-date" id="tooltipDate"></div>
-        <div class="tooltip-status" id="tooltipStatus">
-            <i class="ph ph-check-circle" aria-hidden="true"></i>
-            <span id="tooltipStatusText"></span>
-        </div>
+        <div class="tooltip-status" id="tooltipStatus"></div>
         <div class="tooltip-uptime" id="tooltipUptime"></div>
     </div>
 
     <script>
-        // ===== PERFORMANCE & CONFIG =====
         const pageStartTime = performance.now();
-        const CONFIG = {
-            maxDays: 30,
-            concurrencyLimit: 3,
-            cacheTTL: 5 * 60 * 1000, // 5 minutes
-            debounceDelay: 250
-        };
+        const maxDays = 30;
+        let animationEnabled = true;
 
-        // ===== CACHE LAYER =====
-        const cache = new Map();
-        function cachedFetch(key, fetchFn, ttl = CONFIG.cacheTTL) {
-            const cached = cache.get(key);
-            if (cached && Date.now() - cached.timestamp < ttl) {
-                return Promise.resolve(cached.data);
-            }
-            return fetchFn().then(data => {
-                cache.set(key, { data, timestamp: Date.now() });
-                return data;
-            });
-        }
-
-        // ===== CONCURRENCY CONTROL =====
-        async function fetchWithConcurrency(items, fetchFn, limit = CONFIG.concurrencyLimit) {
-            const results = [];
-            const executing = [];
-            
-            for (const [index, item] of items.entries()) {
-                const promise = (async () => {
-                    try {
-                        const result = await fetchFn(item, index);
-                        return { success: true, data: result, index };
-                    } catch (error) {
-                        return { success: false, error, index };
-                    }
-                })();
-                
-                results.push(promise);
-                executing.push(promise);
-                
-                if (executing.length >= limit) {
-                    await Promise.race(executing);
-                    const finished = executing.find(p => p.status === 'fulfilled' || p.status === 'rejected');
-                    if (finished) {
-                        executing.splice(executing.indexOf(finished), 1);
-                    }
-                }
-            }
-            return Promise.allSettled(results);
-        }
-
-        // ===== THEME MANAGEMENT =====
+        // Effects Toggle
         const themeToggle = document.getElementById('themeToggle');
         const themeIcon = document.getElementById('themeIcon');
-        const html = document.documentElement;
+        const orbs = document.querySelectorAll('.floating-orb');
 
-        function initTheme() {
-            const saved = localStorage.getItem('theme');
-            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            const theme = saved || (prefersDark ? 'dark' : 'light');
-            html.setAttribute('data-theme', theme);
-            updateThemeIcon(theme);
-        }
+        themeToggle.addEventListener('click', () => {
+            animationEnabled = !animationEnabled;
 
-        function updateThemeIcon(theme) {
-            themeIcon.className = theme === 'light' ? 'ph ph-moon' : 'ph ph-sun';
-            themeIcon.setAttribute('aria-label', `Switch to ${theme === 'light' ? 'dark' : 'light'} mode`);
-        }
+            orbs.forEach(orb => {
+                orb.style.animationPlayState = animationEnabled ? 'running' : 'paused';
+                orb.style.opacity = animationEnabled ? '0.4' : '0';
+            });
 
-        function toggleTheme() {
-            const current = html.getAttribute('data-theme');
-            const next = current === 'light' ? 'dark' : 'light';
-            html.setAttribute('data-theme', next);
-            localStorage.setItem('theme', next);
-            updateThemeIcon(next);
-            
-            // Micro-animation
-            themeIcon.style.transform = 'rotate(180deg) scale(1.1)';
+            document.querySelector('.bg-gradient').style.animationPlayState = animationEnabled ? 'running' : 'paused';
+
+            themeIcon.style.transform = animationEnabled ? 'rotate(360deg)' : 'rotate(0deg)';
+            themeIcon.className = animationEnabled ? 'ph ph-sparkle' : 'ph ph-sparkle-slash';
+
             setTimeout(() => {
-                themeIcon.style.transform = 'rotate(0deg) scale(1)';
+                themeIcon.style.transform = 'rotate(0deg)';
             }, 300);
-            
-            // Announce to screen readers
-            announceStatus(`Theme changed to ${next} mode`);
-        }
-
-        themeToggle.addEventListener('click', toggleTheme);
-        initTheme();
-
-        // ===== KEYBOARD SHORTCUTS =====
-        document.addEventListener('keydown', (e) => {
-            // Focus search with "/"
-            if (e.key === '/' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
-                e.preventDefault();
-                document.getElementById('serviceSearch')?.focus();
-            }
-            // Toggle theme with Ctrl/Cmd + T
-            if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 't') {
-                e.preventDefault();
-                toggleTheme();
-            }
         });
 
-        // ===== OFFLINE DETECTION =====
-        function updateOnlineStatus() {
-            const banner = document.getElementById('offlineBanner');
-            if (!navigator.onLine) {
-                banner.classList.add('visible');
-                announceStatus('You are offline. Some features may be limited.');
+        // Header scroll effect
+        let lastScroll = 0;
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('header');
+            const currentScroll = window.pageYOffset;
+
+            if (currentScroll > 50) {
+                header.classList.add('scrolled');
             } else {
-                banner.classList.remove('visible');
+                header.classList.remove('scrolled');
             }
-        }
-        window.addEventListener('online', updateOnlineStatus);
-        window.addEventListener('offline', updateOnlineStatus);
-        updateOnlineStatus();
 
-        // ===== SEARCH & FILTER =====
-        const searchInput = document.getElementById('serviceSearch');
-        const clearBtn = document.getElementById('clearSearch');
-        const filterBtns = document.querySelectorAll('.filter-btn');
-        let currentFilter = 'all';
-        let searchQuery = '';
+            lastScroll = currentScroll;
+        });
 
-        function debounce(fn, delay) {
-            let timeout;
-            return (...args) => {
-                clearTimeout(timeout);
-                timeout = setTimeout(() => fn.apply(this, args), delay);
-            };
-        }
-
-        function applyFilters() {
-            const cards = document.querySelectorAll('.service-card[data-status]');
-            const query = searchQuery.toLowerCase().trim();
-            
-            cards.forEach(card => {
-                const title = card.dataset.title?.toLowerCase() || '';
-                const url = card.dataset.url?.toLowerCase() || '';
-                const status = card.dataset.status;
-                
-                const matchesSearch = !query || title.includes(query) || url.includes(query);
-                const matchesFilter = currentFilter === 'all' || status === currentFilter;
-                
-                if (matchesSearch && matchesFilter) {
-                    card.style.display = '';
-                    card.setAttribute('aria-hidden', 'false');
-                } else {
-                    card.style.display = 'none';
-                    card.setAttribute('aria-hidden', 'true');
+        // Original Logic with Enhancements
+        async function genReportLog(container, key, url) {
+            try {
+                const response = await fetch("logs/" + key + "_report.log");
+                let statusLines = "";
+                if (response.ok) {
+                    statusLines = await response.text();
                 }
-            });
-            
-            // Update count announcement
-            const visible = Array.from(cards).filter(c => c.style.display !== 'none').length;
-            announceStatus(`${visible} service${visible !== 1 ? 's' : ''} shown`);
-        }
-
-        const debouncedFilter = debounce(applyFilters, CONFIG.debounceDelay);
-
-        searchInput?.addEventListener('input', (e) => {
-            searchQuery = e.target.value;
-            clearBtn.hidden = !searchQuery;
-            debouncedFilter();
-        });
-
-        clearBtn?.addEventListener('click', () => {
-            searchInput.value = '';
-            searchQuery = '';
-            clearBtn.hidden = true;
-            searchInput.focus();
-            applyFilters();
-        });
-
-        filterBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                filterBtns.forEach(b => {
-                    b.classList.remove('active');
-                    b.setAttribute('aria-pressed', 'false');
-                });
-                btn.classList.add('active');
-                btn.setAttribute('aria-pressed', 'true');
-                currentFilter = btn.dataset.filter;
-                applyFilters();
-                announceStatus(`Filtered by ${currentFilter}`);
-            });
-        });
-
-        // ===== TOOLTIP SYSTEM =====
-        const tooltip = document.getElementById('globalTooltip');
-        const tooltipDate = document.getElementById('tooltipDate');
-        const tooltipStatus = document.getElementById('tooltipStatus');
-        const tooltipStatusText = document.getElementById('tooltipStatusText');
-        const tooltipUptime = document.getElementById('tooltipUptime');
-
-        function showTooltip(e, date, color, uptimeVal) {
-            tooltipDate.textContent = date.toLocaleDateString(undefined, { 
-                weekday: 'short', month: 'short', day: 'numeric' 
-            });
-            tooltipStatusText.textContent = getStatusText(color);
-            tooltipStatus.className = `tooltip-status ${color}`;
-            tooltipStatus.querySelector('i').className = `ph ${getStatusIcon(color)}`;
-            tooltipUptime.textContent = getStatusDescriptiveText(color);
-            
-            tooltip.classList.add('visible');
-            tooltip.setAttribute('aria-hidden', 'false');
-            positionTooltip(e);
-        }
-
-        function positionTooltip(e) {
-            const rect = tooltip.getBoundingClientRect();
-            const padding = 12;
-            let left = e.clientX - rect.width / 2;
-            let top = e.clientY - rect.height - 15;
-            
-            // Boundary checks
-            if (left < padding) left = padding;
-            if (left + rect.width > window.innerWidth - padding) {
-                left = window.innerWidth - rect.width - padding;
+                const normalized = normalizeData(statusLines);
+                const statusStream = constructStatusStream(key, url, normalized);
+                container.appendChild(statusStream);
+            } catch (error) {
+                console.error("Error loading report for " + key, error);
             }
-            if (top < padding) {
-                top = e.clientY + 20;
-            }
-            if (top + rect.height > window.innerHeight - padding) {
-                top = window.innerHeight - rect.height - padding;
-            }
-            
-            tooltip.style.left = `${left}px`;
-            tooltip.style.top = `${top}px`;
         }
 
-        function hideTooltip() {
-            tooltip.classList.remove('visible');
-            tooltip.setAttribute('aria-hidden', 'true');
-        }
-
-        // Tooltip event delegation
-        document.addEventListener('mouseenter', (e) => {
-            if (e.target.classList.contains('uptime-segment')) {
-                const segment = e.target;
-                const date = new Date(segment.dataset.date);
-                const color = segment.dataset.color;
-                const uptime = segment.dataset.uptime;
-                showTooltip(e, date, color, uptime);
-            }
-        }, true);
-
-        document.addEventListener('mouseleave', (e) => {
-            if (e.target.classList.contains('uptime-segment')) {
-                hideTooltip();
-            }
-        }, true);
-
-        document.addEventListener('mousemove', (e) => {
-            if (tooltip.classList.contains('visible')) {
-                positionTooltip(e);
-            }
-        });
-
-        // Hide tooltip on scroll/touch
-        ['scroll', 'touchstart'].forEach(evt => {
-            document.addEventListener(evt, hideTooltip, { passive: true });
-        });
-
-        // ===== UTILITY FUNCTIONS =====
-        function getColor(uptimeVal) {
-            if (uptimeVal == null || uptimeVal === undefined) return "empty";
-            if (uptimeVal >= 0.99) return "success";
-            if (uptimeVal < 0.3) return "error";
-            return "warning";
-        }
-
-        function getStatusText(color) {
-            const map = {
-                empty: "No Data",
-                success: "Operational",
-                error: "Major Outage",
-                warning: "Degraded"
-            };
-            return map[color] || "Unknown";
-        }
-
-        function getStatusIcon(color) {
-            const map = {
-                empty: "ph-question",
-                success: "ph-check-circle",
-                error: "ph-x-circle",
-                warning: "ph-warning-circle"
-            };
-            return map[color] || "ph-question";
-        }
-
-        function getStatusDescriptiveText(color) {
-            const map = {
-                empty: "No monitoring data available for this day.",
-                success: "All systems operational. No issues detected.",
-                error: "Major outage detected. Services may be unavailable.",
-                warning: "Partial degradation. Some features may be affected."
-            };
-            return map[color] || "Status unknown.";
-        }
-
-        function normalizeData(statusLines) {
-            if (!statusLines?.trim()) return { upTime: "--%" };
-            
-            const rows = statusLines.split("\n").filter(r => r?.trim());
-            const dateNormalized = splitRowsByDate(rows);
-            
-            let relativeDateMap = {};
-            const now = Date.now();
-            
-            for (const [key, val] of Object.entries(dateNormalized)) {
-                if (key === "upTime") continue;
-                const relDays = getRelativeDays(now, new Date(key).getTime());
-                if (relDays < CONFIG.maxDays) {
-                    relativeDateMap[relDays] = getDayAverage(val);
-                }
-            }
-            
-            relativeDateMap.upTime = dateNormalized.upTime || "--%";
-            return relativeDateMap;
-        }
-
-        function getDayAverage(values) {
-            if (!values?.length) return null;
-            return values.reduce((a, v) => a + (v || 0), 0) / values.length;
-        }
-
-        function getRelativeDays(date1, date2) {
-            return Math.floor(Math.abs((date1 - date2) / (24 * 3600 * 1000)));
-        }
-
-        function splitRowsByDate(rows) {
-            const dateValues = {};
-            let sum = 0, count = 0;
-            
-            for (const row of rows) {
-                if (!row?.trim()) continue;
-                
-                const [dateTimeStr, resultStr] = row.split(",", 2);
-                if (!dateTimeStr) continue;
-                
-                try {
-                    const dateTime = new Date(Date.parse(dateTimeStr.replace(/-/g, "/") + " GMT"));
-                    if (isNaN(dateTime)) continue;
-                    
-                    const dateStr = dateTime.toDateString();
-                    if (!dateValues[dateStr]) dateValues[dateStr] = [];
-                    
-                    const result = (resultStr?.trim() === "success") ? 1 : 0;
-                    sum += result;
-                    count++;
-                    dateValues[dateStr].push(result);
-                } catch (e) {
-                    console.warn('Date parse error:', e);
-                }
-            }
-            
-            const upTime = count ? ((sum / count) * 100).toFixed(2) + "%" : "--%";
-            dateValues.upTime = upTime;
-            return dateValues;
-        }
-
-        function constructStatusSquare(date, uptimeVal, color) {
-            const dateStr = date.toISOString().split('T')[0];
-            const uptimePct = uptimeVal != null ? Math.round(uptimeVal * 100) + '%' : 'N/A';
-            
-            return `<div class="uptime-segment ${color}" 
-                        data-date="${dateStr}" 
-                        data-color="${color}" 
-                        data-uptime="${uptimePct}"
-                        tabindex="0"
-                        role="button"
-                        aria-label="${date.toLocaleDateString()}: ${getStatusText(color)}">
-                   </div>`;
-        }
-
-        // ===== SERVICE CARD RENDERING =====
-        function createServiceCard(key, url, uptimeData) {
+        function constructStatusStream(key, url, uptimeData) {
             const lastSet = uptimeData[0];
             const color = getColor(lastSet);
             const statusText = getStatusText(color);
             const uptimePercent = uptimeData.upTime || "--%";
-            const statusClass = color === 'success' ? 'operational' : 
-                               color === 'warning' ? 'degraded' : 'down';
-            const statusIcon = getStatusIcon(color);
-            
-            // Build history HTML
+
+            const card = document.createElement('div');
+            card.className = 'service-card';
+            card.style.animationDelay = Math.random() * 0.3 + 's';
+
+            const statusClass = color === 'success' ? 'operational' : color === 'failure' ? 'down' : color === 'partial' ? 'degraded' : 'down';
+            const statusIcon = color === 'success' ? 'ph-check-circle' : color === 'failure' ? 'ph-x-circle' : 'ph-warning-circle';
+
             let historyHtml = '';
-            for (let ii = CONFIG.maxDays - 1; ii >= 0; ii--) {
+            for (let ii = maxDays - 1; ii >= 0; ii--) {
                 const dayColor = getColor(uptimeData[ii]);
                 const date = new Date();
                 date.setDate(date.getDate() - ii);
-                historyHtml += constructStatusSquare(date, uptimeData[ii], dayColor);
+                historyHtml += constructStatusSquare(key, date, uptimeData[ii], dayColor);
             }
-            
-            const card = document.createElement('article');
-            card.className = `service-card ${statusClass === 'down' ? 'error' : ''}`;
-            card.dataset.status = statusClass;
-            card.dataset.title = key;
-            card.dataset.url = url;
-            card.setAttribute('aria-labelledby', `service-title-${key.replace(/\s+/g, '-')}`);
-            
+
             card.innerHTML = `
                 <div class="service-header">
                     <div class="service-info">
-                        <div class="service-icon" aria-hidden="true">
+                        <div class="service-icon">
                             <i class="ph ph-globe"></i>
                         </div>
                         <div>
-                            <h3 class="service-title" id="service-title-${key.replace(/\s+/g, '-')}">${key}</h3>
-                            <a href="${url}" class="service-url" aria-label="Visit ${key}">
-                                ${url.replace(/^https?:\/\//, '').replace(/\/$/, '')}
-                                <i class="ph ph-arrow-up-right" aria-hidden="true"></i>
+                            <h3 class="service-title">${key}</h3>
+                            <a href="${url}" class="service-url" target="_blank" rel="noopener">
+                                ${url.replace('https://', '').replace('http://', '')}
+                                <i class="ph ph-arrow-up-right"></i>
                             </a>
                         </div>
                     </div>
-                    <div class="service-status ${statusClass}" role="status">
-                        <i class="ph ${statusIcon}" aria-hidden="true"></i>
+                    <div class="service-status ${statusClass}">
+                        <i class="ph ${statusIcon}"></i>
                         ${statusText}
                     </div>
                 </div>
@@ -1628,233 +1272,267 @@
                         <span class="uptime-label">Last 30 days</span>
                         <span class="uptime-value">${uptimePercent}</span>
                     </div>
-                    <div class="uptime-bar" role="img" aria-label="30-day uptime history">
+                    <div class="uptime-bar">
                         ${historyHtml}
                     </div>
                 </div>
             `;
-            
+
             return card;
         }
 
-        function createLoadingCard() {
-            const card = document.createElement('div');
-            card.className = 'service-card loading';
-            card.innerHTML = `
-                <div class="service-header">
-                    <div class="service-info">
-                        <div class="service-icon skeleton" aria-hidden="true"></div>
-                        <div>
-                            <h3 class="service-title skeleton-text large"></h3>
-                            <span class="service-url skeleton-text small"></span>
-                        </div>
-                    </div>
-                    <div class="service-status skeleton-badge"></div>
-                </div>
-                <div class="uptime-container">
-                    <div class="uptime-bar skeleton-bar"></div>
-                </div>
-            `;
-            return card;
+        function constructStatusSquare(key, date, uptimeVal, color) {
+            const segment = document.createElement('div');
+            segment.className = `uptime-segment ${color}`;
+
+            segment.addEventListener('mouseenter', (e) => showTooltip(e, key, date, color, uptimeVal));
+            segment.addEventListener('mouseleave', hideTooltip);
+            segment.addEventListener('mousemove', moveTooltip);
+
+            return segment.outerHTML;
         }
 
-        // ===== MAIN LOADING LOGIC =====
-        async function loadServiceData(key, url) {
-            return cachedFetch(`log:${key}`, async () => {
-                const response = await fetch(`logs/${key}_report.log`);
-                if (!response.ok) throw new Error(`HTTP ${response.status}`);
-                return await response.text();
-            });
+        function getColor(uptimeVal) {
+            if (uptimeVal == null) return "empty";
+            if (uptimeVal == 1) return "success";
+            if (uptimeVal < 0.3) return "error";
+            return "warning";
         }
 
-        async function processService(key, url, container, index) {
-            try {
-                const logText = await loadServiceData(key, url);
-                const normalized = normalizeData(logText);
-                const card = createServiceCard(key, url, normalized);
-                
-                // Add stagger delay via CSS variable
-                card.style.setProperty('--i', index);
-                
-                // Replace loading placeholder
-                const placeholder = container.querySelector(`[data-key="${key}"]`);
-                if (placeholder) {
-                    placeholder.replaceWith(card);
-                } else {
-                    container.appendChild(card);
-                }
-                
-                return { success: true, key, uptime: normalized.upTime, firstDay: normalized[0] };
-            } catch (error) {
-                console.warn(`Failed to load ${key}:`, error);
-                // Create error state card
-                const card = createServiceCard(key, url, { upTime: "--%", 0: null });
-                card.querySelector('.service-status').className = 'service-status down';
-                card.querySelector('.service-status').innerHTML = '<i class="ph ph-x-circle"></i> Error Loading';
-                card.dataset.status = 'down';
-                
-                const placeholder = container.querySelector(`[data-key="${key}"]`);
-                if (placeholder) {
-                    placeholder.replaceWith(card);
-                }
-                return { success: false, key, error };
+        function getStatusText(color) {
+            if (color == "empty") return "No Data";
+            if (color == "success") return "Operational";
+            if (color == "error") return "Major Outage";
+            if (color == "warning") return "Degraded";
+            return "Unknown";
+        }
+
+        function getStatusDescriptiveText(color) {
+            if (color == "empty") return "No data available for this day.";
+            if (color == "success") return "All systems operational.";
+            if (color == "error") return "Major outage detected.";
+            if (color == "warning") return "Partial degradation detected.";
+            return "Unknown status.";
+        }
+
+        function normalizeData(statusLines) {
+            const rows = statusLines.split("\n");
+            const dateNormalized = splitRowsByDate(rows);
+
+            let relativeDateMap = {};
+            const now = Date.now();
+            for (const [key, val] of Object.entries(dateNormalized)) {
+                if (key == "upTime") continue;
+                const relDays = getRelativeDays(now, new Date(key).getTime());
+                relativeDateMap[relDays] = getDayAverage(val);
             }
+
+            relativeDateMap.upTime = dateNormalized.upTime;
+            return relativeDateMap;
         }
 
+        function getDayAverage(val) {
+            if (!val || val.length == 0) return null;
+            return val.reduce((a, v) => a + v) / val.length;
+        }
+
+        function getRelativeDays(date1, date2) {
+            return Math.floor(Math.abs((date1 - date2) / (24 * 3600 * 1000)));
+        }
+
+        function splitRowsByDate(rows) {
+            let dateValues = {};
+            let sum = 0, count = 0;
+
+            for (var ii = 0; ii < rows.length; ii++) {
+                const row = rows[ii];
+                if (!row) continue;
+
+                const [dateTimeStr, resultStr] = row.split(",", 2);
+                const dateTime = new Date(Date.parse(dateTimeStr.replace(/-/g, "/") + " GMT"));
+                const dateStr = dateTime.toDateString();
+
+                let resultArray = dateValues[dateStr];
+                if (!resultArray) {
+                    resultArray = [];
+                    dateValues[dateStr] = resultArray;
+                    if (dateValues.length > maxDays) break;
+                }
+
+                let result = 0;
+                if (resultStr && resultStr.trim() == "success") result = 1;
+                sum += result;
+                count++;
+                resultArray.push(result);
+            }
+
+            const upTime = count ? ((sum / count) * 100).toFixed(2) + "%" : "--%";
+            dateValues.upTime = upTime;
+            return dateValues;
+        }
+
+        // Enhanced Tooltip
+        const tooltip = document.getElementById('globalTooltip');
+        const tooltipDate = document.getElementById('tooltipDate');
+        const tooltipStatus = document.getElementById('tooltipStatus');
+        const tooltipUptime = document.getElementById('tooltipUptime');
+
+        function showTooltip(e, key, date, color, uptimeVal) {
+            tooltipDate.textContent = date.toDateString();
+            tooltipStatus.textContent = getStatusText(color);
+            tooltipStatus.className = 'tooltip-status ' + color;
+            tooltipUptime.textContent = getStatusDescriptiveText(color);
+
+            tooltip.classList.add('visible');
+            moveTooltip(e);
+        }
+
+        function moveTooltip(e) {
+            const x = e.clientX;
+            const y = e.clientY;
+            const rect = tooltip.getBoundingClientRect();
+
+            let left = x - rect.width / 2;
+            let top = y - rect.height - 15;
+
+            if (left < 15) left = 15;
+            if (left + rect.width > window.innerWidth - 15) left = window.innerWidth - rect.width - 15;
+            if (top < 15) top = y + 25;
+
+            tooltip.style.left = left + 'px';
+            tooltip.style.top = top + 'px';
+        }
+
+        function hideTooltip() {
+            tooltip.classList.remove('visible');
+        }
+
+        // Main Load Function
         async function genAllReports() {
             const container = document.getElementById('servicesContainer');
-            const statusBadge = document.getElementById('overallStatus');
-            const statusText = document.getElementById('statusText');
-            
+            container.innerHTML = '';
+
             try {
-                // Load configuration
-                const configResponse = await fetch("urls.cfg");
-                if (!configResponse.ok) throw new Error('Failed to load urls.cfg');
-                
-                const configText = await configResponse.text();
-                const configLines = configText.split("\n").filter(l => l?.trim() && !l.startsWith('#'));
-                
-                // Parse services
-                const services = [];
-                for (const line of configLines) {
-                    const [key, url] = line.split("=").map(s => s?.trim());
-                    if (key && url) {
-                        services.push({ key, url });
-                        // Add loading placeholder
-                        const placeholder = createLoadingCard();
-                        placeholder.dataset.key = key;
-                        container.appendChild(placeholder);
-                    }
-                }
-                
-                if (services.length === 0) {
-                    throw new Error('No services configured in urls.cfg');
-                }
-                
-                // Process with concurrency control
-                const results = await fetchWithConcurrency(
-                    services, 
-                    (service, index) => processService(service.key, service.url, container, index),
-                    CONFIG.concurrencyLimit
-                );
-                
-                // Calculate stats
-                let totalUptime = 0, uptimeCount = 0, incidentCount = 0;
-                
-                results.forEach(result => {
-                    if (result.status === 'fulfilled' && result.value?.success) {
-                        const { uptime, firstDay } = result.value;
-                        if (uptime && uptime !== '--%') {
-                            totalUptime += parseFloat(uptime);
-                            uptimeCount++;
+                const response = await fetch("urls.cfg");
+                if (!response.ok) throw new Error('Failed to load urls.cfg');
+
+                const configText = await response.text();
+                const configLines = configText.split("\n");
+
+                let totalUptime = 0;
+                let uptimeCount = 0;
+                let incidentCount = 0;
+                let serviceCount = 0;
+
+                for (let ii = 0; ii < configLines.length; ii++) {
+                    const configLine = configLines[ii];
+                    const [key, url] = configLine.split("=");
+                    if (!key || !url) continue;
+
+                    serviceCount++;
+
+                    try {
+                        const logResponse = await fetch("logs/" + key + "_report.log");
+                        if (logResponse.ok) {
+                            const logText = await logResponse.text();
+                            const normalized = normalizeData(logText);
+                            if (normalized.upTime && normalized.upTime !== '--%') {
+                                totalUptime += parseFloat(normalized.upTime);
+                                uptimeCount++;
+                            }
+                            if (normalized[0] !== undefined && normalized[0] < 1) {
+                                incidentCount++;
+                            }
                         }
-                        if (firstDay != null && firstDay < 1) {
-                            incidentCount++;
-                        }
-                    }
-                });
-                
-                // Update stats UI
-                document.getElementById('activeServices').textContent = services.length;
-                document.getElementById('activeIncidents').textContent = incidentCount;
-                
+                    } catch (e) {}
+
+                    await genReportLog(container, key.trim(), url.trim());
+                }
+
+                // Update stats with animation
+                animateValue('activeServices', 0, serviceCount, 1000);
+                animateValue('activeIncidents', 0, incidentCount, 1000);
+
                 if (uptimeCount > 0) {
                     const avg = (totalUptime / uptimeCount).toFixed(2);
                     document.getElementById('avgUptime').textContent = avg + '%';
                 }
-                
+
                 // Update overall status
+                const overallStatus = document.getElementById('overallStatus');
                 if (incidentCount === 0) {
-                    statusBadge.className = 'status-badge';
-                    statusBadge.innerHTML = '<span class="status-dot"></span><span id="statusText">All Systems Operational</span>';
-                    announceStatus('All systems operational');
+                    overallStatus.innerHTML = '<span class="status-dot"></span>All Systems Operational';
+                    overallStatus.className = 'status-badge';
+                } else if (incidentCount < serviceCount / 2) {
+                    overallStatus.innerHTML = '<span class="status-dot"></span>' + incidentCount + ' Service' + (incidentCount > 1 ? 's' : '') + ' Degraded';
+                    overallStatus.className = 'status-badge warning';
                 } else {
-                    statusBadge.className = 'status-badge error';
-                    statusBadge.innerHTML = `<span class="status-dot"></span><span id="statusText">${incidentCount} Service${incidentCount > 1 ? 's' : ''} Disrupted</span>`;
-                    announceStatus(`${incidentCount} service${incidentCount > 1 ? 's are' : ' is'} experiencing issues`);
+                    overallStatus.innerHTML = '<span class="status-dot"></span>Major Outage';
+                    overallStatus.className = 'status-badge error';
                 }
-                
-                // Apply initial filters
-                applyFilters();
-                
+
             } catch (error) {
-                console.error("Critical error loading reports:", error);
-                container.innerHTML = `
-                    <div class="empty-state">
-                        <i class="ph ph-warning-circle" aria-hidden="true"></i>
-                        <h3>Unable to Load Services</h3>
-                        <p>${error.message || 'An unexpected error occurred. Please check your configuration files and network connection.'}</p>
-                        <button class="retry-btn" onclick="location.reload()">
-                            <i class="ph ph-arrows-clockwise"></i>
-                            Retry
-                        </button>
-                    </div>
-                `;
-                statusBadge.className = 'status-badge error';
-                statusText.textContent = 'System Error';
-                announceStatus('Failed to load service status');
-            } finally {
-                // Render time
-                const renderTime = Math.round(performance.now() - pageStartTime);
-                document.getElementById('renderTime').textContent = `Rendered in ${renderTime}ms`;
+                console.error("Error loading reports:", error);
+                container.innerHTML = '<div style="text-align: center; padding: 3rem; color: var(--text-secondary);"><i class="ph ph-warning-circle" style="font-size: 3rem; margin-bottom: 1rem; display: block; color: var(--error);"></i>Failed to load services. Please check your urls.cfg file.</div>';
             }
+
+            // Render time
+            const renderTime = Math.round(performance.now() - pageStartTime);
+            document.getElementById('renderTime').textContent = `Page rendered in ${renderTime}ms`;
         }
 
-        // ===== SCREEN READER ANNOUNCEMENTS =====
-        function announceStatus(message) {
-            const region = document.getElementById('statusAnnouncement');
-            if (region) {
-                region.textContent = message;
-                // Clear after announcement
-                setTimeout(() => { region.textContent = ''; }, 1000);
+        // Number animation function
+        function animateValue(id, start, end, duration) {
+            const obj = document.getElementById(id);
+            const range = end - start;
+            const minTimer = 50;
+            let stepTime = Math.abs(Math.floor(duration / range));
+            stepTime = Math.max(stepTime, minTimer);
+            let startTime = new Date().getTime();
+            let endTime = startTime + duration;
+            let timer;
+
+            function run() {
+                let now = new Date().getTime();
+                let remaining = Math.max((endTime - now) / duration, 0);
+                let value = Math.round(end - (remaining * range));
+                obj.innerHTML = value;
+                if (value == end) {
+                    clearInterval(timer);
+                }
             }
+
+            timer = setInterval(run, stepTime);
+            run();
         }
 
-        // ===== HEADER SCROLL EFFECT =====
-        let lastScrollY = 0;
-        function handleHeaderScroll() {
-            const header = document.querySelector('.header');
-            const currentY = window.scrollY;
-            
-            if (currentY > 50) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
-            lastScrollY = currentY;
-        }
-        window.addEventListener('scroll', handleHeaderScroll, { passive: true });
+        // Initialize
+        document.addEventListener('DOMContentLoaded', genAllReports);
 
-        // ===== INITIALIZATION =====
-        document.addEventListener('DOMContentLoaded', () => {
-            // Initialize theme first
-            initTheme();
-            
-            // Load reports
-            genAllReports();
-            
-            // Announce page load
-            setTimeout(() => {
-                announceStatus('Status page loaded. ' + document.querySelectorAll('.service-card').length + ' services being monitored.');
-            }, 1000);
-        });
+        // Intersection Observer for scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
 
-        // ===== LAZY LOADING FOR IMAGES/ICONS (Future-proof) =====
-        if ('IntersectionObserver' in window) {
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const icon = entry.target;
-                        if (icon.dataset.src) {
-                            icon.src = icon.dataset.src;
-                            observer.unobserve(icon);
-                        }
-                    }
-                });
-            }, { rootMargin: '50px' });
-            
-            document.querySelectorAll('img[data-src]').forEach(img => observer.observe(img));
-        }
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements after load
+        setTimeout(() => {
+            document.querySelectorAll('.service-card, .stat-card').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(el);
+            });
+        }, 100);
     </script>
 </body>
 </html>
