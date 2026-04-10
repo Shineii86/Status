@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shinei Nouzen | Quinx System Status</title>
+    <title>Shinei Nouzen | System Status Page</title>
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,28 +15,43 @@
 
     <style>
         :root {
-            --bg-primary: #0f0f23;
-            --bg-secondary: rgba(255, 255, 255, 0.03);
-            --bg-tertiary: rgba(255, 255, 255, 0.05);
-            --text-primary: #ffffff;
-            --text-secondary: rgba(255, 255, 255, 0.7);
-            --text-tertiary: rgba(255, 255, 255, 0.5);
-            --border-color: rgba(255, 255, 255, 0.1);
+            --bg-primary: #fafafa;
+            --bg-secondary: #ffffff;
+            --bg-tertiary: #f4f4f5;
+            --text-primary: #18181b;
+            --text-secondary: #52525b;
+            --text-tertiary: #a1a1aa;
+            --border-color: #e4e4e7;
             --accent-primary: #6366f1;
             --accent-secondary: #8b5cf6;
-            --accent-tertiary: #ec4899;
+            --accent-gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
             --success: #22c55e;
             --warning: #f59e0b;
             --error: #ef4444;
-            --info: #3b82f6;
-            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
-            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.4);
-            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -4px rgba(0, 0, 0, 0.5);
-            --shadow-glow: 0 0 30px rgba(99, 102, 241, 0.4);
-            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            --gradient-4: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-glow: 0 0 20px rgba(99, 102, 241, 0.3);
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #09090b;
+            --bg-secondary: #18181b;
+            --bg-tertiary: #27272a;
+            --text-primary: #fafafa;
+            --text-secondary: #a1a1aa;
+            --text-tertiary: #71717a;
+            --border-color: #3f3f46;
+            --accent-primary: #818cf8;
+            --accent-secondary: #a78bfa;
+            --accent-gradient: linear-gradient(135deg, #818cf8 0%, #a78bfa 100%);
+            --success: #4ade80;
+            --warning: #fbbf24;
+            --error: #f87171;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.4);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.5), 0 4px 6px -4px rgb(0 0 0 / 0.5);
+            --shadow-glow: 0 0 30px rgba(129, 140, 248, 0.2);
         }
 
         * {
@@ -51,96 +66,11 @@
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--bg-primary);
+            background-color: var(--bg-primary);
             color: var(--text-primary);
             line-height: 1.6;
             min-height: 100vh;
-            overflow-x: hidden;
-            position: relative;
-        }
-
-        /* Animated Background */
-        .bg-animation {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            overflow: hidden;
-        }
-
-        .bg-gradient {
-            position: absolute;
-            width: 150%;
-            height: 150%;
-            top: -25%;
-            left: -25%;
-            background: 
-                radial-gradient(ellipse at 20% 20%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 80%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
-                radial-gradient(ellipse at 50% 50%, rgba(236, 72, 153, 0.08) 0%, transparent 60%),
-                radial-gradient(ellipse at 30% 70%, rgba(34, 197, 94, 0.08) 0%, transparent 50%);
-            animation: bgFloat 20s ease-in-out infinite;
-        }
-
-        @keyframes bgFloat {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            33% { transform: translate(30px, -30px) rotate(2deg); }
-            66% { transform: translate(-20px, 20px) rotate(-2deg); }
-        }
-
-        .floating-orb {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.4;
-            animation: orbFloat 15s ease-in-out infinite;
-        }
-
-        .orb-1 {
-            width: 400px;
-            height: 400px;
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
-            top: 10%;
-            left: 10%;
-            animation-delay: 0s;
-        }
-
-        .orb-2 {
-            width: 300px;
-            height: 300px;
-            background: linear-gradient(135deg, #ec4899, #f43f5e);
-            top: 60%;
-            right: 10%;
-            animation-delay: -5s;
-        }
-
-        .orb-3 {
-            width: 350px;
-            height: 350px;
-            background: linear-gradient(135deg, #22c55e, #10b981);
-            bottom: 10%;
-            left: 30%;
-            animation-delay: -10s;
-        }
-
-        @keyframes orbFloat {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(50px, -50px) scale(1.1); }
-        }
-
-        /* Noise Texture Overlay */
-        .noise-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            opacity: 0.03;
-            pointer-events: none;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         h1, h2, h3, h4, h5, h6 {
@@ -149,22 +79,16 @@
             line-height: 1.2;
         }
 
-        /* Glassmorphism Header */
         .header {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             z-index: 1000;
-            background: rgba(15, 15, 35, 0.7);
-            backdrop-filter: blur(20px) saturate(180%);
+            background: rgba(var(--bg-secondary), 0.8);
+            backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border-color);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .header.scrolled {
-            background: rgba(15, 15, 35, 0.9);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
         }
 
         .header-content {
@@ -185,51 +109,24 @@
             font-size: 1.5rem;
             color: var(--text-primary);
             text-decoration: none;
-            transition: all 0.3s ease;
-            position: relative;
+            transition: transform 0.3s ease;
         }
 
         .logo:hover {
             transform: scale(1.02);
-            text-shadow: 0 0 20px rgba(99, 102, 241, 0.5);
         }
 
         .logo-icon {
-            width: 44px;
-            height: 44px;
-            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
-            background-size: 200% 200%;
-            border-radius: 14px;
+            width: 40px;
+            height: 40px;
+            background: var(--accent-gradient);
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
             font-size: 1.25rem;
-            box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
-            animation: gradientShift 3s ease infinite;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .logo-icon::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
-            animation: shimmer 2s infinite;
-        }
-
-        @keyframes gradientShift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-
-        @keyframes shimmer {
-            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+            box-shadow: var(--shadow-glow);
         }
 
         .header-actions {
@@ -241,7 +138,7 @@
         .theme-toggle {
             width: 48px;
             height: 48px;
-            border-radius: 14px;
+            border-radius: 12px;
             border: 1px solid var(--border-color);
             background: var(--bg-secondary);
             color: var(--text-secondary);
@@ -251,57 +148,35 @@
             justify-content: center;
             font-size: 1.25rem;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
         }
 
         .theme-toggle:hover {
             background: var(--bg-tertiary);
             color: var(--text-primary);
-            transform: translateY(-2px) scale(1.05);
-            box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
-            border-color: var(--accent-primary);
-        }
-
-        .theme-toggle:active {
-            transform: scale(0.95);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
         }
 
         .main-content {
             max-width: 1200px;
             margin: 0 auto;
             padding: 8rem 2rem 4rem;
-            position: relative;
-            z-index: 1;
         }
 
-        /* Hero Section with Enhanced Animations */
         .hero {
             text-align: center;
             margin-bottom: 4rem;
-            animation: fadeInUp 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-            position: relative;
+            animation: fadeInUp 0.8s ease-out;
         }
 
         @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: translateY(40px) scale(0.95);
+                transform: translateY(30px);
             }
             to {
                 opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-
-        @keyframes fadeInScale {
-            from {
-                opacity: 0;
-                transform: scale(0.8);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
+                transform: translateY(0);
             }
         }
 
@@ -309,71 +184,29 @@
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            padding: 0.75rem 1.5rem;
+            padding: 0.5rem 1rem;
             background: rgba(34, 197, 94, 0.1);
-            border: 1px solid rgba(34, 197, 94, 0.3);
+            border: 1px solid rgba(34, 197, 94, 0.2);
             border-radius: 100px;
             color: var(--success);
             font-size: 0.875rem;
             font-weight: 600;
             margin-bottom: 1.5rem;
-            animation: pulse 2s infinite, glowPulse 2s infinite alternate;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
-        }
-
-        .status-badge.warning {
-            background: rgba(245, 158, 11, 0.1);
-            border-color: rgba(245, 158, 11, 0.3);
-            color: var(--warning);
-            animation: pulse 2s infinite, glowPulseWarning 2s infinite alternate;
-        }
-
-        .status-badge.error {
-            background: rgba(239, 68, 68, 0.1);
-            border-color: rgba(239, 68, 68, 0.3);
-            color: var(--error);
-            animation: pulse 2s infinite, glowPulseError 2s infinite alternate;
+            animation: pulse 2s infinite;
         }
 
         @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.85; transform: scale(1.02); }
-        }
-
-        @keyframes glowPulse {
-            from { box-shadow: 0 0 10px rgba(34, 197, 94, 0.3); }
-            to { box-shadow: 0 0 25px rgba(34, 197, 94, 0.6); }
-        }
-
-        @keyframes glowPulseWarning {
-            from { box-shadow: 0 0 10px rgba(245, 158, 11, 0.3); }
-            to { box-shadow: 0 0 25px rgba(245, 158, 11, 0.6); }
-        }
-
-        @keyframes glowPulseError {
-            from { box-shadow: 0 0 10px rgba(239, 68, 68, 0.3); }
-            to { box-shadow: 0 0 25px rgba(239, 68, 68, 0.6); }
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
         }
 
         .status-dot {
-            width: 10px;
-            height: 10px;
-            background: currentColor;
+            width: 8px;
+            height: 8px;
+            background: var(--success);
             border-radius: 50%;
-            box-shadow: 0 0 15px currentColor;
-            animation: blink 1.5s infinite;
-            position: relative;
-        }
-
-        .status-dot::after {
-            content: '';
-            position: absolute;
-            inset: -4px;
-            border-radius: 50%;
-            border: 2px solid currentColor;
-            opacity: 0;
-            animation: ripple 1.5s infinite;
+            box-shadow: 0 0 10px var(--success);
+            animation: blink 2s infinite;
         }
 
         @keyframes blink {
@@ -381,26 +214,13 @@
             50% { transform: scale(1.2); opacity: 0.8; }
         }
 
-        @keyframes ripple {
-            0% { transform: scale(1); opacity: 0.5; }
-            100% { transform: scale(2); opacity: 0; }
-        }
-
         .hero h1 {
-            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-size: clamp(2.5rem, 5vw, 4rem);
             margin-bottom: 1rem;
-            background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 50%, #c084fc 100%);
+            background: var(--accent-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            animation: textShine 3s ease-in-out infinite;
-            background-size: 200% auto;
-            letter-spacing: -0.02em;
-        }
-
-        @keyframes textShine {
-            0%, 100% { background-position: 0% center; }
-            50% { background-position: 100% center; }
         }
 
         .hero p {
@@ -408,13 +228,11 @@
             color: var(--text-secondary);
             max-width: 600px;
             margin: 0 auto;
-            animation: fadeInUp 1s 0.2s cubic-bezier(0.4, 0, 0.2, 1) backwards;
         }
 
-        /* Stats Grid with Glass Cards */
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 1.5rem;
             margin-bottom: 4rem;
         }
@@ -422,143 +240,81 @@
         .stat-card {
             background: var(--bg-secondary);
             border: 1px solid var(--border-color);
-            border-radius: 24px;
-            padding: 1.75rem;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 20px;
+            padding: 1.5rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             animation: fadeInUp 0.8s ease-out backwards;
-            backdrop-filter: blur(10px);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .stat-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: var(--gradient-1);
-            transform: scaleX(0);
-            transition: transform 0.5s ease;
         }
 
         .stat-card:nth-child(1) { animation-delay: 0.1s; }
-        .stat-card:nth-child(1)::before { background: var(--gradient-1); }
         .stat-card:nth-child(2) { animation-delay: 0.2s; }
-        .stat-card:nth-child(2)::before { background: var(--gradient-2); }
         .stat-card:nth-child(3) { animation-delay: 0.3s; }
-        .stat-card:nth-child(3)::before { background: var(--gradient-3); }
         .stat-card:nth-child(4) { animation-delay: 0.4s; }
-        .stat-card:nth-child(4)::before { background: var(--gradient-4); }
 
         .stat-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(99, 102, 241, 0.2);
-            border-color: rgba(99, 102, 241, 0.3);
-        }
-
-        .stat-card:hover::before {
-            transform: scaleX(1);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--accent-primary);
         }
 
         .stat-header {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: 1.25rem;
+            margin-bottom: 1rem;
         }
 
         .stat-icon {
-            width: 52px;
-            height: 52px;
-            border-radius: 16px;
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1.5rem;
-            transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .stat-icon::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, transparent, rgba(255,255,255,0.2), transparent);
-            transform: translateX(-100%);
-            transition: transform 0.6s ease;
-        }
-
-        .stat-card:hover .stat-icon::after {
-            transform: translateX(100%);
         }
 
         .stat-icon.success {
-            background: rgba(34, 197, 94, 0.15);
+            background: rgba(34, 197, 94, 0.1);
             color: var(--success);
-            box-shadow: 0 0 20px rgba(34, 197, 94, 0.2);
         }
 
         .stat-icon.primary {
-            background: rgba(99, 102, 241, 0.15);
+            background: rgba(99, 102, 241, 0.1);
             color: var(--accent-primary);
-            box-shadow: 0 0 20px rgba(99, 102, 241, 0.2);
         }
 
         .stat-icon.warning {
-            background: rgba(245, 158, 11, 0.15);
+            background: rgba(245, 158, 11, 0.1);
             color: var(--warning);
-            box-shadow: 0 0 20px rgba(245, 158, 11, 0.2);
         }
 
         .stat-icon.info {
-            background: rgba(59, 130, 246, 0.15);
-            color: var(--info);
-            box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
+            background: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
         }
 
         .stat-value {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: 2.25rem;
+            font-size: 2rem;
             font-weight: 800;
             color: var(--text-primary);
             margin-bottom: 0.25rem;
-            background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            transition: all 0.3s ease;
-        }
-
-        .stat-card:hover .stat-value {
-            transform: scale(1.05);
         }
 
         .stat-label {
             font-size: 0.875rem;
             color: var(--text-secondary);
-            font-weight: 500;
         }
 
         .section-title {
-            font-size: 1.75rem;
-            margin-bottom: 2rem;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
             display: flex;
             align-items: center;
             gap: 0.75rem;
-            animation: fadeInUp 0.8s 0.5s ease-out backwards;
         }
 
-        .section-title i {
-            background: var(--accent-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        /* Services Container */
         .services-container {
             display: flex;
             flex-direction: column;
@@ -569,34 +325,16 @@
         .service-card {
             background: var(--bg-secondary);
             border: 1px solid var(--border-color);
-            border-radius: 24px;
+            border-radius: 20px;
             padding: 2rem;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             animation: fadeInUp 0.8s ease-out backwards;
-            backdrop-filter: blur(10px);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .service-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.03), transparent);
-            transition: left 0.7s ease;
-        }
-
-        .service-card:hover::before {
-            left: 100%;
         }
 
         .service-card:hover {
-            transform: translateY(-4px) scale(1.01);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(99, 102, 241, 0.2);
-            border-color: rgba(99, 102, 241, 0.3);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--accent-primary);
         }
 
         .service-header {
@@ -611,52 +349,31 @@
         .service-info {
             display: flex;
             align-items: center;
-            gap: 1.25rem;
+            gap: 1rem;
         }
 
         .service-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(139, 92, 246, 0.2));
-            border-radius: 18px;
+            width: 56px;
+            height: 56px;
+            background: var(--bg-tertiary);
+            border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1.75rem;
             color: var(--accent-primary);
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .service-icon::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: var(--accent-gradient);
-            opacity: 0;
-            transition: opacity 0.3s ease;
+            transition: all 0.3s ease;
         }
 
         .service-card:hover .service-icon {
-            transform: scale(1.1) rotate(8deg);
-            box-shadow: 0 0 30px rgba(99, 102, 241, 0.4);
-        }
-
-        .service-card:hover .service-icon::after {
-            opacity: 1;
-        }
-
-        .service-card:hover .service-icon i {
+            background: var(--accent-gradient);
             color: white;
-            position: relative;
-            z-index: 1;
+            transform: scale(1.05) rotate(5deg);
         }
 
         .service-title {
-            font-size: 1.35rem;
-            margin-bottom: 0.35rem;
-            font-weight: 700;
+            font-size: 1.25rem;
+            margin-bottom: 0.25rem;
         }
 
         .service-url {
@@ -665,53 +382,37 @@
             text-decoration: none;
             display: flex;
             align-items: center;
-            gap: 0.35rem;
-            transition: all 0.3s ease;
-            font-weight: 500;
+            gap: 0.25rem;
+            transition: color 0.3s ease;
         }
 
         .service-url:hover {
             color: var(--accent-primary);
-            gap: 0.5rem;
         }
 
         .service-status {
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            padding: 0.6rem 1.25rem;
+            padding: 0.5rem 1rem;
             border-radius: 100px;
             font-size: 0.875rem;
             font-weight: 600;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
         }
 
         .service-status.operational {
-            background: rgba(34, 197, 94, 0.15);
+            background: rgba(34, 197, 94, 0.1);
             color: var(--success);
-            border: 1px solid rgba(34, 197, 94, 0.3);
-            box-shadow: 0 0 15px rgba(34, 197, 94, 0.2);
         }
 
         .service-status.degraded {
-            background: rgba(245, 158, 11, 0.15);
+            background: rgba(245, 158, 11, 0.1);
             color: var(--warning);
-            border: 1px solid rgba(245, 158, 11, 0.3);
-            box-shadow: 0 0 15px rgba(245, 158, 11, 0.2);
         }
 
         .service-status.down {
-            background: rgba(239, 68, 68, 0.15);
+            background: rgba(239, 68, 68, 0.1);
             color: var(--error);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            box-shadow: 0 0 15px rgba(239, 68, 68, 0.2);
-            animation: errorPulse 2s infinite;
-        }
-
-        @keyframes errorPulse {
-            0%, 100% { box-shadow: 0 0 15px rgba(239, 68, 68, 0.2); }
-            50% { box-shadow: 0 0 25px rgba(239, 68, 68, 0.4); }
         }
 
         .uptime-container {
@@ -721,148 +422,108 @@
         .uptime-header {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 1rem;
+            margin-bottom: 0.75rem;
             font-size: 0.875rem;
         }
 
         .uptime-label {
             color: var(--text-secondary);
-            font-weight: 500;
         }
 
         .uptime-value {
-            font-weight: 700;
+            font-weight: 600;
             color: var(--text-primary);
-            font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
         .uptime-bar {
             display: flex;
-            gap: 4px;
-            height: 44px;
-            border-radius: 12px;
+            gap: 3px;
+            height: 40px;
+            border-radius: 10px;
             overflow: hidden;
-            background: rgba(255, 255, 255, 0.03);
-            padding: 4px;
         }
 
         .uptime-segment {
             flex: 1;
             position: relative;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s ease;
             min-width: 4px;
-            border-radius: 6px;
         }
 
         .uptime-segment:hover {
-            transform: scaleY(1.2) scaleX(1.1);
+            transform: scaleY(1.1);
             z-index: 10;
-            box-shadow: 0 0 20px currentColor;
         }
 
-        .uptime-segment.success { 
-            background: linear-gradient(180deg, #4ade80 0%, #22c55e 100%);
-            box-shadow: 0 2px 8px rgba(34, 197, 94, 0.3);
-        }
-        .uptime-segment.warning { 
-            background: linear-gradient(180deg, #fbbf24 0%, #f59e0b 100%);
-            box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
-        }
-        .uptime-segment.error { 
-            background: linear-gradient(180deg, #f87171 0%, #ef4444 100%);
-            box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
-        }
-        .uptime-segment.empty { 
-            background: rgba(255, 255, 255, 0.05);
-        }
+        .uptime-segment.success { background: var(--success); }
+        .uptime-segment.warning { background: var(--warning); }
+        .uptime-segment.error { background: var(--error); }
+        .uptime-segment.empty { background: var(--bg-tertiary); }
 
-        /* Enhanced Tooltip */
         .tooltip {
             position: fixed;
-            background: rgba(15, 15, 35, 0.95);
-            border: 1px solid rgba(99, 102, 241, 0.3);
-            border-radius: 16px;
-            padding: 1.25rem;
-            min-width: 220px;
-            max-width: 300px;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(99, 102, 241, 0.2);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1rem;
+            min-width: 200px;
+            max-width: 280px;
+            box-shadow: var(--shadow-lg);
             opacity: 0;
             visibility: hidden;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.2s ease;
             z-index: 10000;
             pointer-events: none;
-            backdrop-filter: blur(20px);
-            transform: translateY(10px) scale(0.95);
         }
 
         .tooltip.visible {
             opacity: 1;
             visibility: visible;
-            transform: translateY(0) scale(1);
         }
 
         .tooltip-date {
             font-size: 0.75rem;
             color: var(--text-tertiary);
             text-transform: uppercase;
-            letter-spacing: 0.1em;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.25rem;
         }
 
         .tooltip-status {
-            font-weight: 700;
-            margin-bottom: 0.75rem;
-            padding: 0.4rem 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            padding: 0.25rem 0.75rem;
             border-radius: 100px;
             display: inline-block;
             font-size: 0.875rem;
         }
 
         .tooltip-status.success {
-            background: rgba(34, 197, 94, 0.2);
+            background: rgba(34, 197, 94, 0.1);
             color: var(--success);
-            border: 1px solid rgba(34, 197, 94, 0.3);
         }
 
         .tooltip-status.warning {
-            background: rgba(245, 158, 11, 0.2);
+            background: rgba(245, 158, 11, 0.1);
             color: var(--warning);
-            border: 1px solid rgba(245, 158, 11, 0.3);
         }
 
         .tooltip-status.error {
-            background: rgba(239, 68, 68, 0.2);
+            background: rgba(239, 68, 68, 0.1);
             color: var(--error);
-            border: 1px solid rgba(239, 68, 68, 0.3);
         }
 
         .tooltip-uptime {
             font-size: 0.875rem;
             color: var(--text-secondary);
-            margin-top: 0.75rem;
-            line-height: 1.5;
+            margin-top: 0.5rem;
         }
 
-        /* Footer */
         .footer {
             border-top: 1px solid var(--border-color);
             margin-top: 4rem;
             padding: 3rem 0;
-            position: relative;
-            background: linear-gradient(180deg, transparent 0%, rgba(99, 102, 241, 0.03) 100%);
-        }
-
-        .footer::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 200px;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--accent-primary), transparent);
         }
 
         .footer-content {
@@ -883,17 +544,11 @@
             font-weight: 700;
             font-size: 1.25rem;
             color: var(--text-primary);
-            transition: all 0.3s ease;
-        }
-
-        .footer-brand:hover {
-            transform: scale(1.05);
-            text-shadow: 0 0 20px rgba(99, 102, 241, 0.5);
         }
 
         .footer-links {
             display: flex;
-            gap: 2.5rem;
+            gap: 2rem;
             flex-wrap: wrap;
             justify-content: center;
         }
@@ -901,41 +556,22 @@
         .footer-links a {
             color: var(--text-secondary);
             text-decoration: none;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
+            font-size: 0.875rem;
+            transition: color 0.3s ease;
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            padding: 0.5rem 1rem;
-            border-radius: 12px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .footer-links a::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: var(--accent-gradient);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            z-index: -1;
         }
 
         .footer-links a:hover {
-            color: white;
-            transform: translateY(-2px);
-        }
-
-        .footer-links a:hover::before {
-            opacity: 1;
+            color: var(--accent-primary);
         }
 
         .footer-bottom {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 0.75rem;
+            gap: 0.5rem;
             color: var(--text-tertiary);
             font-size: 0.875rem;
         }
@@ -945,28 +581,18 @@
             align-items: center;
             gap: 0.5rem;
             font-size: 0.75rem;
-            padding: 0.6rem 1.25rem;
+            padding: 0.5rem 1rem;
             background: var(--bg-tertiary);
             border-radius: 100px;
-            border: 1px solid var(--border-color);
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            transition: all 0.3s ease;
         }
 
-        .render-time:hover {
-            border-color: var(--accent-primary);
-            box-shadow: 0 0 15px rgba(99, 102, 241, 0.2);
-        }
-
-        /* Loading Skeleton */
         .loading-skeleton {
-            background: linear-gradient(90deg, var(--bg-tertiary) 25%, rgba(99, 102, 241, 0.1) 50%, var(--bg-tertiary) 75%);
+            background: linear-gradient(90deg, var(--bg-tertiary) 25%, var(--border-color) 50%, var(--bg-tertiary) 75%);
             background-size: 200% 100%;
             animation: shimmer 1.5s infinite;
-            border-radius: 24px;
+            border-radius: 12px;
             height: 200px;
             margin-bottom: 1.5rem;
-            border: 1px solid var(--border-color);
         }
 
         @keyframes shimmer {
@@ -974,27 +600,6 @@
             100% { background-position: -200% 0; }
         }
 
-        /* Scrollbar */
-        ::-webkit-scrollbar {
-            width: 10px;
-            height: 10px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: var(--bg-primary);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: linear-gradient(180deg, var(--accent-primary), var(--accent-secondary));
-            border-radius: 5px;
-            border: 2px solid var(--bg-primary);
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(180deg, var(--accent-secondary), var(--accent-tertiary));
-        }
-
-        /* Responsive */
         @media (max-width: 768px) {
             .header-content {
                 padding: 1rem;
@@ -1010,7 +615,7 @@
             }
 
             .uptime-bar {
-                height: 36px;
+                height: 32px;
             }
 
             .stats-grid {
@@ -1020,49 +625,40 @@
             .uptime-segment {
                 min-width: 3px;
             }
-
-            .floating-orb {
-                filter: blur(60px);
-                opacity: 0.3;
-            }
         }
 
-        /* Connection Lines Animation */
-        .connection-line {
-            position: absolute;
-            background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.3), transparent);
-            height: 1px;
-            width: 100%;
-            animation: linePulse 3s infinite;
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
         }
 
-        @keyframes linePulse {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 0.8; }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-tertiary);
         }
     </style>
+<base target="_blank">
 </head>
 <body>
-    <!-- Animated Background -->
-    <div class="bg-animation">
-        <div class="bg-gradient"></div>
-        <div class="floating-orb orb-1"></div>
-        <div class="floating-orb orb-2"></div>
-        <div class="floating-orb orb-3"></div>
-    </div>
-    <div class="noise-overlay"></div>
-
-    <header class="header" id="header">
+    <header class="header">
         <div class="header-content">
             <a href="#" class="logo">
                 <div class="logo-icon">
                     <i class="ph ph-activity"></i>
                 </div>
-                <span>Quinx Status</span>
+                <span>Status Page</span>
             </a>
             <div class="header-actions">
-                <button class="theme-toggle" id="themeToggle" aria-label="Toggle effects">
-                    <i class="ph ph-sparkle" id="themeIcon"></i>
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <i class="ph ph-moon" id="themeIcon"></i>
                 </button>
             </div>
         </div>
@@ -1133,10 +729,10 @@
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-brand">
-                <div class="logo-icon" style="width: 36px; height: 36px; font-size: 1rem;">
+                <div class="logo-icon" style="width: 32px; height: 32px; font-size: 1rem;">
                     <i class="ph ph-activity"></i>
                 </div>
-                <span>Quinx Status Page</span>
+                <span>Status Page</span>
             </div>
             <nav class="footer-links">
                 <a href="https://github.com/Shineii86" target="_blank" rel="noopener">
@@ -1171,47 +767,31 @@
     <script>
         const pageStartTime = performance.now();
         const maxDays = 30;
-        let animationEnabled = true;
 
-        // Effects Toggle
+        // Theme Toggle
         const themeToggle = document.getElementById('themeToggle');
         const themeIcon = document.getElementById('themeIcon');
-        const orbs = document.querySelectorAll('.floating-orb');
+        const html = document.documentElement;
+
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        html.setAttribute('data-theme', currentTheme);
+        updateThemeIcon(currentTheme);
 
         themeToggle.addEventListener('click', () => {
-            animationEnabled = !animationEnabled;
-
-            orbs.forEach(orb => {
-                orb.style.animationPlayState = animationEnabled ? 'running' : 'paused';
-                orb.style.opacity = animationEnabled ? '0.4' : '0';
-            });
-
-            document.querySelector('.bg-gradient').style.animationPlayState = animationEnabled ? 'running' : 'paused';
-
-            themeIcon.style.transform = animationEnabled ? 'rotate(360deg)' : 'rotate(0deg)';
-            themeIcon.className = animationEnabled ? 'ph ph-sparkle' : 'ph ph-sparkle-slash';
-
-            setTimeout(() => {
-                themeIcon.style.transform = 'rotate(0deg)';
-            }, 300);
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+            themeIcon.style.transform = 'rotate(360deg)';
+            setTimeout(() => themeIcon.style.transform = 'rotate(0deg)', 300);
         });
 
-        // Header scroll effect
-        let lastScroll = 0;
-        window.addEventListener('scroll', () => {
-            const header = document.getElementById('header');
-            const currentScroll = window.pageYOffset;
+        function updateThemeIcon(theme) {
+            themeIcon.className = theme === 'light' ? 'ph ph-moon' : 'ph ph-sun';
+        }
 
-            if (currentScroll > 50) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
-
-            lastScroll = currentScroll;
-        });
-
-        // Original Logic with Enhancements
+        // Original Logic Integrated with New UI
         async function genReportLog(container, key, url) {
             try {
                 const response = await fetch("logs/" + key + "_report.log");
@@ -1235,7 +815,6 @@
 
             const card = document.createElement('div');
             card.className = 'service-card';
-            card.style.animationDelay = Math.random() * 0.3 + 's';
 
             const statusClass = color === 'success' ? 'operational' : color === 'failure' ? 'down' : color === 'partial' ? 'degraded' : 'down';
             const statusIcon = color === 'success' ? 'ph-check-circle' : color === 'failure' ? 'ph-x-circle' : 'ph-warning-circle';
@@ -1371,7 +950,7 @@
             return dateValues;
         }
 
-        // Enhanced Tooltip
+        // Tooltip Logic
         const tooltip = document.getElementById('globalTooltip');
         const tooltipDate = document.getElementById('tooltipDate');
         const tooltipStatus = document.getElementById('tooltipStatus');
@@ -1393,11 +972,11 @@
             const rect = tooltip.getBoundingClientRect();
 
             let left = x - rect.width / 2;
-            let top = y - rect.height - 15;
+            let top = y - rect.height - 10;
 
-            if (left < 15) left = 15;
-            if (left + rect.width > window.innerWidth - 15) left = window.innerWidth - rect.width - 15;
-            if (top < 15) top = y + 25;
+            if (left < 10) left = 10;
+            if (left + rect.width > window.innerWidth - 10) left = window.innerWidth - rect.width - 10;
+            if (top < 10) top = y + 20;
 
             tooltip.style.left = left + 'px';
             tooltip.style.top = top + 'px';
@@ -1410,7 +989,7 @@
         // Main Load Function
         async function genAllReports() {
             const container = document.getElementById('servicesContainer');
-            container.innerHTML = '';
+            container.innerHTML = ''; // Clear skeletons
 
             try {
                 const response = await fetch("urls.cfg");
@@ -1431,6 +1010,7 @@
 
                     serviceCount++;
 
+                    // Fetch log data for stats
                     try {
                         const logResponse = await fetch("logs/" + key + "_report.log");
                         if (logResponse.ok) {
@@ -1449,9 +1029,9 @@
                     await genReportLog(container, key.trim(), url.trim());
                 }
 
-                // Update stats with animation
-                animateValue('activeServices', 0, serviceCount, 1000);
-                animateValue('activeIncidents', 0, incidentCount, 1000);
+                // Update stats
+                document.getElementById('activeServices').textContent = serviceCount;
+                document.getElementById('activeIncidents').textContent = incidentCount;
 
                 if (uptimeCount > 0) {
                     const avg = (totalUptime / uptimeCount).toFixed(2);
@@ -1462,18 +1042,19 @@
                 const overallStatus = document.getElementById('overallStatus');
                 if (incidentCount === 0) {
                     overallStatus.innerHTML = '<span class="status-dot"></span>All Systems Operational';
-                    overallStatus.className = 'status-badge';
-                } else if (incidentCount < serviceCount / 2) {
-                    overallStatus.innerHTML = '<span class="status-dot"></span>' + incidentCount + ' Service' + (incidentCount > 1 ? 's' : '') + ' Degraded';
-                    overallStatus.className = 'status-badge warning';
+                    overallStatus.style.background = 'rgba(34, 197, 94, 0.1)';
+                    overallStatus.style.color = 'var(--success)';
+                    overallStatus.style.borderColor = 'rgba(34, 197, 94, 0.2)';
                 } else {
-                    overallStatus.innerHTML = '<span class="status-dot"></span>Major Outage';
-                    overallStatus.className = 'status-badge error';
+                    overallStatus.innerHTML = '<span class="status-dot" style="background: var(--error); box-shadow: 0 0 10px var(--error);"></span>' + incidentCount + ' Service' + (incidentCount > 1 ? 's' : '') + ' Disrupted';
+                    overallStatus.style.background = 'rgba(239, 68, 68, 0.1)';
+                    overallStatus.style.color = 'var(--error)';
+                    overallStatus.style.borderColor = 'rgba(239, 68, 68, 0.2)';
                 }
 
             } catch (error) {
                 console.error("Error loading reports:", error);
-                container.innerHTML = '<div style="text-align: center; padding: 3rem; color: var(--text-secondary);"><i class="ph ph-warning-circle" style="font-size: 3rem; margin-bottom: 1rem; display: block; color: var(--error);"></i>Failed to load services. Please check your urls.cfg file.</div>';
+                container.innerHTML = '<div style="text-align: center; padding: 3rem; color: var(--text-secondary);"><i class="ph ph-warning-circle" style="font-size: 3rem; margin-bottom: 1rem; display: block;"></i>Failed to load services. Please check your urls.cfg file.</div>';
             }
 
             // Render time
@@ -1481,58 +1062,17 @@
             document.getElementById('renderTime').textContent = `Page rendered in ${renderTime}ms`;
         }
 
-        // Number animation function
-        function animateValue(id, start, end, duration) {
-            const obj = document.getElementById(id);
-            const range = end - start;
-            const minTimer = 50;
-            let stepTime = Math.abs(Math.floor(duration / range));
-            stepTime = Math.max(stepTime, minTimer);
-            let startTime = new Date().getTime();
-            let endTime = startTime + duration;
-            let timer;
-
-            function run() {
-                let now = new Date().getTime();
-                let remaining = Math.max((endTime - now) / duration, 0);
-                let value = Math.round(end - (remaining * range));
-                obj.innerHTML = value;
-                if (value == end) {
-                    clearInterval(timer);
-                }
-            }
-
-            timer = setInterval(run, stepTime);
-            run();
-        }
-
         // Initialize
         document.addEventListener('DOMContentLoaded', genAllReports);
 
-        // Intersection Observer for scroll animations
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, observerOptions);
-
-        // Observe elements after load
-        setTimeout(() => {
-            document.querySelectorAll('.service-card, .stat-card').forEach(el => {
-                el.style.opacity = '0';
-                el.style.transform = 'translateY(20px)';
-                el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-                observer.observe(el);
-            });
-        }, 100);
+        // Header scroll effect
+        let lastScroll = 0;
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('.header');
+            const currentScroll = window.pageYOffset;
+            header.style.boxShadow = currentScroll > 50 ? 'var(--shadow-md)' : 'none';
+            lastScroll = currentScroll;
+        });
     </script>
 </body>
 </html>
